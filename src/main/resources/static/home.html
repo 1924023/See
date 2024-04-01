@@ -3,8 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+        #header {
+            text-align: left; /* 로그인 링크를 오른쪽으로 정렬하기 위해 왼쪽 정렬로 변경합니다. */
+            padding: 100px; /* 로그인 링크와 로고 사이의 간격을 조정합니다. */
+        }
+        #logo img {
+            width: 350px; /* 로고 이미지의 가로 크기를 조정합니다. */
+            height: auto; /* 세로 크기는 가로 크기에 따라 자동으로 조절됩니다. */
+        }
+        #logo {
+            float: left; /* 로고를 왼쪽으로 정렬합니다. */
+            margin-right: 20px; /* 로고와 텍스트 사이의 간격을 조정합니다. */
+        }
+        #content {
+            clear: both; /* 로고 아래의 내용이 로고 옆으로 이동하지 않도록 clear합니다. */
+            text-align: left;
+            margin-top: 20px; /* 로고와 내용 사이의 간격을 조정합니다. */
+        }
+        #header a {
+            margin-right: 20px; /* 로그인 링크 오른쪽 여백 추가 */
+        }
+    </style>
 </head>
 <body>
-    Hello Good
+<div id="header">
+    <a href="login.html" style="float: right;">로그인</a> <!-- 로그인 링크를 오른쪽으로 정렬 -->
+    <div id="logo">
+        <img src="assets/logo.png" alt="로고 이미지">
+    </div>
+</div>
+<div id="content">
+    <h1>웹사이트에 오신 것을 환영합니다!</h1>
+    <button onclick="location.href='login.html'">구독권</button>
+</div>
 </body>
 </html>
