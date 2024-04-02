@@ -3,37 +3,82 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>로그인</title>
     <title th:text="See"></title>
+    <style>
+        body {
+            background-color: black; /* 바탕을 검은색으로 설정 */
+            color: white; /* 기본 텍스트 색상을 흰색으로 설정 */
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px; /* 로고가 화면 상단에서 조금 아래에 위치하도록 조정 */
+        }
+        .logo {
+            margin-bottom: 80px; /* 로고와 폼 사이에 간격을 조정 */
+        }
+        .logo img {
+            width: 150px; /* 로고 이미지의 너비를 조절합니다 */
+            height: auto; /* 높이를 자동으로 맞추어 이미지 비율을 유지합니다 */
+        }
+        .form-box {
+            width: 320px; /* 전체 폼의 너비를 설정합니다 */
+            margin: 0 auto; /* 수평 가운데 정렬 */
+            padding: 20px;
+            background-color: white; /* 박스를 흰색으로 설정 */
+            border-radius: 10px;
+            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: black; /* 라벨 텍스트 색상을 검은색으로 설정 */
+        }
+        .form-input {
+            width: calc(100% - 20px); /* 텍스트 입력란의 너비를 설정합니다 (패딩 포함) */
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
+        }
+        .button {
+            width: calc(50% - 5px); /* 버튼의 너비를 설정합니다 (패딩 및 테두리는 포함되지 않음) */
+            padding: 10px 0;
+            background-color: #08025C;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px; /* 버튼 위에 간격 추가 */
+        }
+        .button:hover {
+            background-color: #08025C;
+        }
+        .button + .button {
+            margin-top: 10px; /* 버튼 아래에 간격 추가 */
+        }
+    </style>
 </head>
 <body>
-<div>
-    <h1><a th:href="|/${loginType}|">See</a></h1> <hr/>
-    <h2>로그인</h2>
-    <form action="login" method="post">
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">id</label>
-            <input type="text" name="loginid" id="exampleFormControlInput1" placeholder="Your Name">
-        </div>
-        <br>
-        <div class="mb-3">
-            <label for="password" class="form-label">password</label><br>
-            <input id="password" name="pw" type="password">
-        </div>
-        <br/>
-        <button type="submit">로그인</button>
-    </form>
-    <form action="join" method="get">
-        <button type="submit">회원 가입</button>
-    </form>
+<div class="container">
+    <div class="logo">
+        <img src="assets/logo.png"> <!-- 로고 이미지를 삽입합니다 -->
+    </div>
+    <div class="form-box">
+        <form action="login" method="post">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">ID</label>
+                <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">PASSWORD</label><br>
+                <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
+            </div>
+            <button type="submit" class="button">로그인</button>
+            <button type="submit" class="button">회원 가입</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>
-
-<style>
-    .error-class {
-        color: red;
-    }
-    .error-input {
-        border-color: red;
-    }
-</style>

@@ -1,38 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시물 작성폼</title>
+    <title>회원가입</title>
+    <style>
+        body {
+            background-color: black; /* 배경을 검은색으로 설정 */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white; /* 기본 텍스트 색상을 흰색으로 설정 */
+        }
+        .layout {
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 요소들을 배치 */
+            align-items: center; /* 가로 중앙 정렬 */
+            justify-content: center; /* 세로 중앙 정렬 */
+            height: 100vh;
+            position: relative;
+        }
+        .form-box {
+            width: 320px; /* 전체 폼의 너비를 설정합니다 */
+            margin: 20px auto; /* 수직 가운데 정렬 */
+            padding: 20px;
+            background-color: white; /* 박스를 흰색으로 설정 */
+            border-radius: 10px;
+            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
+            text-align: center; /* 내부 요소를 가운데 정렬하기 위해 텍스트 정렬을 가운데로 설정 */
+        }
+        .form-label {
+            display: inline-block;
+            width: 100px; /* 레이블의 폭을 지정합니다 */
+            margin-bottom: 10px;
+            color: black; /* 라벨 텍스트 색상을 검은색으로 설정 */
+            text-align: center; /* 텍스트를 왼쪽으로 정렬합니다 */
+        }
+        .form-input {
+            width: calc(100% - 50px); /* 텍스트 입력란의 너비를 설정합니다 (레이블 폭 제외) */
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
+        }
+        .form-button {
+            width: 100%; /* 버튼의 너비를 폼 너비와 동일하게 설정 */
+            background-color: #08025C;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-button:hover {
+            background-color: #05003a;
+        }
+        .form-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .logo {
+            margin-bottom: 40px; /* 로고와 폼 사이에 간격을 조정 */
+        }
+        .logo img {
+            width: 150px; /* 로고 이미지의 너비를 조절합니다 */
+            height: auto; /* 높이를 자동으로 맞추어 이미지 비율을 유지합니다 */
+        }
+    </style>
 </head>
 <body>
 <div class="layout">
-    <form action="join" method="post">
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">id</label>
-            <input type="text" name="loginid" id="exampleFormControlInput1" placeholder="Your Name">
-        </div>
-        <br>
-        <div class="mb-3">
-            <label for="password" class="form-label">password</label><br>
-            <input id="password" name="pw" type="password">
-        </div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">name</label><br>
-            <input type="text" name="name">
-        </div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">birth</label><br>
-            <input type="date" name="birth">
-        </div>
-        <div class="mb-3">
-            <label for="gender" class="form-label">gender</label><br>
-            <select id="gender" name="gender">
-                <option value="1">Male</option>
-                <option value="0">Female</option>
-            </select>
-        </div>
-        <button type="submit">작성</button>
-    </form>
+    <div class="logo">
+        <img src="assets/logo.png">
+    </div>
+    <div class="form-box">
+        <div class="form-title">회원가입</div>
+        <form action="join" method="post">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">ID</label>
+                <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label><br>
+                <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Name</label><br>
+                <input type="text" name="name" class="form-input" placeholder="이름">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Birth</label><br>
+                <input type="date" name="birth" class="form-input" placeholder="생년월일">
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label" placeholder="성별">Gender</label><br>
+                <select id="gender" name="gender" class="form-input" >
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </div>
+            <button type="submit" class="form-button">회원가입</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>
