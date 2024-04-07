@@ -1,9 +1,7 @@
 package com.care.test.member;
 
-import com.care.test.admin.Admin;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 @Controller
 public class UserController {
@@ -34,7 +31,10 @@ public class UserController {
         System.out.println("GetMapping /join");
         return "join";
     }
-
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
     @PostMapping("/join")
     public String registerUser(@ModelAttribute("user") Member member) {
         System.out.println("PostMapping /join");
@@ -80,7 +80,7 @@ public class UserController {
                 HttpSession session = request.getSession(); //일치 시 session 생성
                 session.setAttribute("login_success_id", foundId); //session에 일치한 id값 저장
                 System.out.println("get session");
-                return "redirect:/login_success";
+                return "redirect:/index";
             } else {
                 return "redirect:login_fail";
             }
@@ -92,7 +92,7 @@ public class UserController {
     @GetMapping("/update")
     public String update(){
         System.out.println("Getmapping update");
-        return "update.html";
+        return "update";
     }
 
     @PostMapping("/update")
@@ -107,7 +107,7 @@ public class UserController {
         String session_id = (String)session.getAttribute("login_success_id"); //세션에 있는 id값 가져와서 String으로 저장
         System.out.println("session id : " + session_id);
         Member foundId = userRepository.findByLoginid((session_id)); //해당 id값을 가진 칼럼 조회
-        userRepository.deleteByLoginid(foundId.getLoginid()); //그 아이디 삭제
+        userRepository.delete(foundId); //그 아이디 삭제
         session.invalidate(); //해당 세션 제거
         return "home";
     }
@@ -120,5 +120,11 @@ public class UserController {
         members.add(member); //List에 member 인스턴스에 넣은 데이터 추가
         model.addAttribute("members", members); //모델에 해당 데이터 넣기
         return "myData";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "forward:home";
     }
 }
