@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface AdminRepository extends JpaRepository<Admin, String> {
     //추가하고자 하는 쿼리 여기에 작성
+    Admin findByAdminid(String adminid);
+    Admin deleteByAdminid(String adminid);
 }

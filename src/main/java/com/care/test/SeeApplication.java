@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EntityScan(basePackages = {"com.care.test"})
-@EnableJpaRepositories(basePackages = {"com.care.test.member", "com.care.test.pay", "com.care.test.admin"})
+@EnableJpaRepositories(basePackages = {"com.care.test.member", "com.care.test.pay", "com.care.test.admin", "com.care.test.movie"})
 
 public class SeeApplication {
 	public static void main(String[] args) throws SQLException {
