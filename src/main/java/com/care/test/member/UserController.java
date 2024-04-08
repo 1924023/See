@@ -26,12 +26,15 @@ public class UserController {
 
         return "home";
     }
+
+
     @GetMapping("/join")
     public String join(){
         System.out.println("GetMapping /join");
         return "join";
     }
     @GetMapping("/index")
+
     public String index(){
         return "index";
     }
