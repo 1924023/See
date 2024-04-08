@@ -2,24 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>See</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles/general.css">
-    <link rel="stylesheet" href="../static/styles/header.css">
-    <link rel="stylesheet" href="../static/styles/contents.css">
-    <link rel="stylesheet" href="../static/styles/footer.css">
     <title>See</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/contents.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/popup.css">
+    <!-- Font Awesome 아이콘 라이브러리 -->
     <script src="https://kit.fontawesome.com/44abc8888a.js" crossorigin="anonymous"></script>
-
-
 
 </head>
 <body>
 <div class="home">
-    <img class = "ad" src="../static/assets/main_movie.webp">
+    <img class="ad" src="assets/main_movie.webp">
     <div class="overlay">
-        <header class = "header">
-            <img class="logo" src="../static/assets/logo.png">
+        <header class="header">
+            <img class="logo" src="assets/logo.png">
             <div class="nav">
                 <div class="nav-item" onclick="goToHome()">홈</div>
                 <div class="nav-item" onclick="goToMovie()">영화 </div>
@@ -27,92 +28,68 @@
                 <div class="nav-item" onclick="goToWish()">내가 찜한 리스트</div>
             </div>
             <div class="menu">
-                <div class ="search" onclick="goToSearch()">
-                    <i class="fa-solid fa-magnifying-glass fa-2x" style="color: #ffffff;" ></i>
+                <div class="search" onclick="goToSearch()">
+                    <i class="fa-solid fa-magnifying-glass fa-2x" style="color: #ffffff;"></i>
                 </div>
                 <div class="notifications-icon-container" onclick="goToNotifications()">
-                    <img class="notifications-icon" src="../static/assets/notification.png">
+                    <img class="notifications-icon" src="assets/notification.png">
                     <div class="notifications-count"></div>
                 </div>
-                <img class="profile" src="../static/assets/profile.webp" onclick="goToProfile()">
+                <img class="profile" src="assets/profile.webp" onclick="goToProfile()">
             </div>
         </header>
     </div>
 
-    <div class = "banner">
-        <img class = "ad-title" src="../static/assets/main_movie_title.webp">
-        <div class = "comment">영상소개</div>
-        <div class = "description">영상소개글<br>
-        </div>
-        <div class = "buttons">
-            <div class = play-button onclick="playVideo()">
+    <!-- 배너 영역 -->
+    <div class="banner">
+        <img class="ad-title" src="assets/main_movie_title.webp">
+        <div class="comment">영상소개</div>
+        <div class="description">영상소개글<br></div>
+        <div class="buttons">
+            <div class="play-button" onclick="playVideo()">
                 <i class="fa-solid fa-play" style="color: #000000;"></i>
                 재생
             </div>
-            <div class = info-button onclick="infoVideo()">
+            <div class="info-button" onclick="infoVideo()">
                 <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i>
                 상세 정보
             </div>
         </div>
     </div>
 
+    <!-- 카테고리 목록 영역 -->
     <div class="category-list">
+        <!-- 시청 중인 콘텐츠 목록 -->
         <div class="category">
             <div class="title">user님이 시청중인 콘텐츠</div>
-            <div class="list">
-                <div class="movie">
-                    <img src="../static/assets/user님이시청중인콘텐츠/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="../static/assets/user님이시청중인콘텐츠/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="../static/assets/user님이시청중인콘텐츠/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="../static/assets/user님이시청중인콘텐츠/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="../static/assets/user님이시청중인콘텐츠/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="../static/assets/user님이시청중인콘텐츠/movie_1.webp">
-                </div>
-            </div>
+            <div class="list"
+                id="watching-list"></div>
         </div>
 
-
+        <!-- 추천 시리즈 목록 -->
         <div class="category">
             <div class="title">추천 시리즈</div>
-            <div class="list">
-                <div class="movie">
-                    <img src="/assets/추천시리즈/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="/assets/추천시리즈/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="/assets/추천시리즈/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="/assets/추천시리즈/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="/assets/추천시리즈/movie_1.webp">
-                </div>
-                <div class="movie">
-                    <img src="/assets/추천시리즈/movie_1.webp">
-                </div>
-            </div>
+            <div class="list"
+                id="recommended-movies-list"></div>
         </div>
     </div>
 </div>
-</div>
-</body>
+
+<!-- 팝업 영역 -->
+<div id="videoPopup" class="popup">
+    <div class="popup-content">
+        <!-- 팝업 닫기 버튼 -->
+        <span class="close" onclick="closePopup()">&times;</span>
+
+        <!-- 비디오 플레이어 -->
+        <video id="popupVideo" controls style="width: 100%;"></video>
+
+    </div>
 </div>
 
+
 <footer>
-    <div class = info>
+    <div class=info>
         <span>See 통신판매업신고번호: 제 9999 전화번호: 9999-9999 (수신자 부담)</span> <br> <br>
         <span>대표: 박정현, 조승연</span> <br> <br>
         <span>이메일 주소: qkrwjdgus1441@naver.com</span> <br><br>
@@ -122,44 +99,165 @@
 </footer>
 
 <script>
-    // 왼쪽 상단에 있는 카테고리바 버튼 함수
-    function goToHome() {
-        window.location.href = "index.html";
+    // 페이지 로드 시 호출되는 함수
+    window.addEventListener('load', displayMoviesAndVideos);
+
+    // 영화 클릭 시 추천 시리즈 목록 가져오고 보여주는 함수
+    function displayMoviesAndVideos() {
+        // AJAX 요청
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+
+                // 추천 시리즈 목록 표시
+                displayRecommendedMovies(responseData.thumbnails, responseData.videos);
+            }
+        };
+        xhttp.open("GET", "/moviesData", true);
+        xhttp.send();
     }
+
+    // 추천 시리즈 목록을 화면에 표시하는 함수
+    function displayRecommendedMovies(thumbnails, videos) {
+        var moviesContainer = document.getElementById('recommended-movies-list');
+
+        thumbnails.forEach((thumbnailData, index) => {
+            var movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+
+            // Base64 이미지 데이터 디코딩
+            var decodedImageData = atob(thumbnailData);
+            var decodedDataArray = new Uint8Array(decodedImageData.length);
+            for (var i = 0; i < decodedImageData.length; i++) {
+                decodedDataArray[i] = decodedImageData.charCodeAt(i);
+            }
+            var blob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+            var movieImage = document.createElement('img');
+            movieImage.src = URL.createObjectURL(blob);
+
+            // 이미지를 클릭했을 때의 동작 추가
+            movieImage.addEventListener('click', function() {
+                // 클릭한 이미지에 대한 동작을 여기에 추가
+                console.log('이미지 ' + (index + 1) + ' 클릭됨');
+                var videoUrl = videos[index]; // 클릭한 이미지에 대한 비디오 URL
+                var clickedThumbnailData = thumbnails[index];
+                openPopup(videoUrl); // 팝업 열기 함수 호출
+
+                // 해당 썸네일과 비디오를 watching-list로 추가하는 함수 호출
+                addToWatchingList(clickedThumbnailData, videoUrl);
+            });
+
+
+            movieElement.appendChild(movieImage);
+            moviesContainer.appendChild(movieElement);
+        });
+        console.log('추천 시리즈 목록 가져오기 성공.');
+    }
+
+    //시청 중인 콘텐츠에 썸네일과 영상 추가하는 함수
+    function addToWatchingList(thumbnailData, videoUrl) {
+        // 'watching-list' 요소 가져오기
+        var watchingList = document.getElementById('watching-list');
+
+        // Base64 형식으로 인코딩된 이미지 데이터 디코딩
+        var decodedThumbnailData = atob(thumbnailData);
+
+        // 디코딩된 데이터를 Uint8Array로 변환하여 이미지 Blob 생성
+        var decodedDataArray = new Uint8Array(decodedThumbnailData.length);
+        for (var i = 0; i < decodedThumbnailData.length; i++) {
+            decodedDataArray[i] = decodedThumbnailData.charCodeAt(i);
+        }
+        var thumbnailBlob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+        // 이미지 요소 생성 및 설정
+        var thumbnailImage = document.createElement('img');
+        thumbnailImage.src = URL.createObjectURL(thumbnailBlob); // 이미지 URL 설정
+        thumbnailImage.classList.add('watching-thumbnail'); // CSS 클래스 추가
+
+        // 이미지를 클릭했을 때의 이벤트 처리
+        thumbnailImage.addEventListener('click', function() {
+            console.log('시청 중인 영상 썸네일 클릭됨'); // 썸네일 클릭 시 로그 출력
+
+            // 해당 비디오를 팝업으로 재생하는 함수 호출
+            openPopup(videoUrl);
+        });
+
+        // 'watching-list'에 이미지 요소 추가
+        var movieElement = document.createElement('div');
+        movieElement.classList.add('movie');
+        movieElement.appendChild(thumbnailImage);
+        watchingList.appendChild(movieElement);
+    }
+
+    // 팝업 열기 함수
+    function openPopup(videoData) {
+        var popup = document.getElementById("videoPopup");
+        var popupVideo = document.getElementById("popupVideo");
+        popup.style.display = "block"; // 팝업 보이기
+
+        // 비디오 데이터를 Base64로 디코딩하여 Blob 객체 생성
+        var decodedVideoData = atob(videoData);
+        var decodedDataArray = new Uint8Array(decodedVideoData.length);
+        for (var i = 0; i < decodedVideoData.length; i++) {
+            decodedDataArray[i] = decodedVideoData.charCodeAt(i);
+        }
+        var blob = new Blob([decodedDataArray], { type: 'video/mp4' });
+
+        // Blob URL 생성 및 비디오 요소에 설정
+        var videoUrl = URL.createObjectURL(blob);
+        popupVideo.src = videoUrl; // 비디오 URL 설정
+    }
+
+
+
+    // 팝업 닫기 함수
+    function closePopup() {
+        var popup = document.getElementById("videoPopup");
+        popup.style.display = "none"; // 팝업 숨기기
+        var popupVideo = document.getElementById("popupVideo");
+        popupVideo.pause(); // 비디오 일시 정지
+    }
+
+    // 메뉴 클릭 시 동작 함수들
+    function goToHome() {
+        window.location.href = "index";
+    }
+
     function goToMovie() {
         alert("영화목록으로 이동");
     }
+
     function goToContents() {
         alert("신규컨텐츠로 이동")
     }
+
     function goToWish() {
         alert("찜목록으로 이동")
     }
 
-    // 오른쪽 상단에 있는 카테고리바 버튼 함수
     function goToSearch() {
         alert("검색창 이동")
     }
-    function  goToNotifications() {
+
+    function goToNotifications() {
         alert("알림창 이동")
     }
+
     function goToProfile() {
         window.location.href = "login_success";
     }
 
-
-    // 메인에 띄어진 영상 재생버튼 함수
+    // 재생 버튼 클릭 시 동작 함수
     function playVideo() {
-        // 일단 영상 재생이 안되니 메세지만 출력하게 함
         alert("영상재생");
     }
 
+    // 영상 정보 버튼 클릭 시 동작 함수
     function infoVideo() {
-        // 메세지만 출력
         alert("영상 상세정보")
     }
-
 </script>
-
 </body>
 </html>
