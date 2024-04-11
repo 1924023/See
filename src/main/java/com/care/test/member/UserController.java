@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.List;
 @Controller
@@ -26,15 +27,12 @@ public class UserController {
 
         return "home";
     }
-
-
     @GetMapping("/join")
     public String join(){
         System.out.println("GetMapping /join");
         return "join";
     }
     @GetMapping("/index")
-
     public String index(){
         return "index";
     }
@@ -93,14 +91,21 @@ public class UserController {
 
 
     @GetMapping("/update")
-    public String update(){
+    public String update(Model model, Member member, HttpSession session){
+        String foundId = (String) session.getAttribute("login_success_id"); //똑같이 세션 가져옴
+        member = userRepository.findByLoginid(foundId); //세션값과 id값 있는 지 확인
+        System.out.println(member.getLoginid());
+        model.addAttribute("member", member);
         System.out.println("Getmapping update");
         return "update";
     }
 
     @PostMapping("/update")
-    public void update(@ModelAttribute("user_update")Member member){
-
+    public String update(@ModelAttribute("user_update")Member member){
+        String encodedPassword = passwordEncoder.encode(member.getPw());
+        member.setPw(encodedPassword);
+        userRepository.save(member);
+        return "myData";
     }
 
     //삭제 후 화면 출력이 좀 이상해서 점검 해야함
@@ -115,7 +120,7 @@ public class UserController {
         return "home";
     }
 
-    @PostMapping("/myData")
+    @RequestMapping("/myData")
     public String myData(HttpSession session, Model model, Member member){
         String foundId = (String) session.getAttribute("login_success_id"); //똑같이 세션 가져옴
         member = userRepository.findByLoginid(foundId); //세션값과 id값 있는 지 확인

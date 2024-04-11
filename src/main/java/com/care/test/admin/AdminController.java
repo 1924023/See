@@ -82,8 +82,26 @@ public class AdminController {
         String session_id = (String)session.getAttribute("admin_login_id"); //세션에 있는 id값 가져와서 String으로 저장
         System.out.println("session id : " + session_id);
         Admin foundId = adminRepository.findByAdminid((session_id)); //해당 id값을 가진 칼럼 조회
-        adminRepository.deleteByAdminid(foundId.getAdminid()); //그 아이디 삭제
+        adminRepository.delete(foundId); //그 아이디 삭제
         session.invalidate(); //해당 세션 제거
         return "home";
+    }
+
+    @GetMapping("/adupdate")
+    public String update(Model model, Admin admin, HttpSession session){
+        String foundId = (String) session.getAttribute("admin_login_id"); //똑같이 세션 가져옴
+        admin = adminRepository.findByAdminid(foundId); //세션값과 id값 있는 지 확인
+        System.out.println(admin.getAdminid());
+        model.addAttribute("admin", admin);
+        System.out.println("Getmapping update");
+        return "update";
+    }
+
+    @PostMapping("/adupdate")
+    public String update(@ModelAttribute("user_update")Admin admin){
+        String encodedPassword = passwordEncoder.encode(admin.getAdminpw());
+        admin.setAdminpw(encodedPassword);
+        adminRepository.save(admin);
+        return "myData";
     }
 }
