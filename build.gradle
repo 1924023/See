@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework:spring-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'javax.persistence:javax.persistence-api:2.2'
@@ -32,6 +33,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 	implementation 'javax.servlet:javax.servlet-api:4.0.1'
+	implementation 'io.projectreactor:reactor-core:3.4.14'
+	implementation 'org.springframework:spring-core'
+	implementation 'org.springframework:spring-webflux'
 }
 
 tasks.named('test') {
