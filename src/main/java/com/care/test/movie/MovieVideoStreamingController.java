@@ -8,13 +8,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import reactor.core.publisher.Flux;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,52 +48,37 @@ public class MovieVideoStreamingController {
     }
 
     @GetMapping("/streamingEndpoint")
-    public ResponseEntity<Flux<ResourceRegion>> streamVideoByMovieName(@RequestParam String movieName,
-                                                                       @RequestParam(required = false) Long rangeStart,
-                                                                       @RequestParam(required = false) Long rangeEnd) {
-        // 영화 이름으로 해당하는 영상을 찾는다.
+    public ResponseEntity<StreamingResponseBody> streamVideoByMovieName(
+            @RequestParam String movieName,
+            @RequestParam(defaultValue = "0") double currentTime) {
+
         Optional<MovieVideo> movieOptional = movieVideoRepository.findBymoviename(movieName);
 
         if (movieOptional.isPresent()) {
             MovieVideo movieVideo = movieOptional.get();
+            byte[] videoBytes = movieVideo.getMovievideo();
+            long videoLength = videoBytes.length;
 
-            // 영상을 스트리밍하는 데 사용할 수 있는 Flux를 생성한다.
-            Flux<ResourceRegion> videoStream = createVideoStream(movieVideo, rangeStart, rangeEnd);
+            long rangeStart = (long) (currentTime * videoLength);
+            long rangeEnd = videoLength - 1;
 
-            // 영상을 스트리밍하는 데 사용할 수 있는 MediaType을 지정한다.
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf("video/mp4"));
+            headers.add(HttpHeaders.CONTENT_RANGE, "bytes " + rangeStart + "-" + rangeEnd + "/" + videoLength);
 
-            return ResponseEntity.status(HttpStatus.OK)
+            StreamingResponseBody responseBody = outputStream -> {
+                try {
+                    outputStream.write(videoBytes, (int) rangeStart, (int) (rangeEnd - rangeStart + 1));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            };
+
+            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
                     .headers(headers)
-                    .body(videoStream);
+                    .body(responseBody);
         } else {
-            // 해당하는 영상이 없는 경우 404 에러를 반환한다.
             return ResponseEntity.notFound().build();
         }
-    }
-
-    // 비디오를 스트리밍하는 메서드 (ResourceRegion 사용)
-    private Flux<ResourceRegion> createVideoStream(MovieVideo movieVideo, Long rangeStart, Long rangeEnd) {
-        byte[] videoBytes = movieVideo.getMovievideo();
-        long contentLength = videoBytes.length;
-
-        // 영상의 범위 설정
-        long chunkSize = 10 * 1000 * 1000; // 10초 단위
-        long start = rangeStart != null ? rangeStart : 0;
-        long end = rangeEnd != null ? rangeEnd : contentLength - 1;
-        long rangeLength = end - start + 1;
-
-        // ResourceRegion을 생성하여 스트리밍한다.
-        List<ResourceRegion> regions = new ArrayList<>();
-        for (long i = start; i <= end; i += chunkSize) {
-            long chunkStart = i;
-            long chunkEnd = Math.min(i + chunkSize - 1, end);
-            long chunkLength = chunkEnd - chunkStart + 1;
-            ByteArrayResource resource = new ByteArrayResource(Arrays.copyOfRange(videoBytes, (int) chunkStart, (int) chunkEnd + 1));
-            regions.add(new ResourceRegion(resource, chunkStart, chunkLength));
-        }
-
-        return Flux.fromIterable(regions);
     }
 }
