@@ -1,4 +1,4 @@
-package com.care.test.movie;
+package com.care.test.movie_ani;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

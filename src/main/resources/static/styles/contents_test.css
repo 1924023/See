@@ -1,60 +1,41 @@
-/* 카테고리 리스트 */
-.category-list {
+.category-list{
     display: flex;
     flex-direction: column;
     padding-left: 20px;
     margin-top: -100px;
+
 }
 
-/* 카테고리 */
-.category {
+/* Scrollbar 제거 */
+.category::-webkit-scrollbar {
+    display: none;
+}
+
+.category{
     padding-bottom: 60px;
     overflow: auto;
-}
 
-/* 카테고리 제목 */
-.category .title {
+}
+.category .title{
     font-size: 18px;
     font-weight: 900;
     color: white;
     padding: 15px 0;
-}
 
-/* 영화 목록 */
-.list {
+}
+.list{
     display: flex;
     flex-direction: row;
-}
 
-/* 영화 */
-.movie {
+}
+.movie{
     padding: 5px;
 }
-
-/* 마우스 호버 효과 */
-.movie:hover {
+.movie:hover{
     transform: scale(1.3);
     transition: 0.3s;
     transition-delay: 0s;
 }
-
-/* 영화 이미지 */
-.movie img {
+.movie img{
     border-radius: 4px;
-}
-
-/* 스크롤바 스타일 */
-.category-list::-webkit-scrollbar {
-    width: 8px; /* 스크롤바 너비 조정 */
-}
-
-/* 스크롤바 슬라이더 */
-.category-list::-webkit-scrollbar-thumb {
-    background-color: navy; /* 스크롤바 색상 */
-    border-radius: 8px; /* 스크롤바 모서리 둥글게 */
-}
-
-/* 스크롤바 트랙 */
-.category-list::-webkit-scrollbar-track {
-    background-color: transparent; /* 스크롤바 트랙 색상 */
 }

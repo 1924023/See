@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 업로드</title>
+</head>
+<body>
+<h2>영화 업로드</h2>
+<form action="/kmovieinfoupload" method="post" enctype="multipart/form-data">
+    <label for="thumbnail">썸네일 이미지:</label>
+    <input type="file" id="thumbnail" name="thumbnail" accept="image/*"><br><br>
+
+    <label for="moviename">영화 제목:</label>
+    <input type="text" id="moviename" name="moviename"><br><br>
+
+    <label for="actor">배우:</label>
+    <input type="text" id="actor" name="actor"><br><br>
+
+    <label for="director">감독:</label>
+    <input type="text" id="director" name="director"><br><br>
+
+    <label for="genre">장르:</label>
+    <input type="text" id="genre" name="genre"><br><br>
+
+    <button type="submit">업로드</button>
+</form>
+</body>
+</html>

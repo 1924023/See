@@ -1,4 +1,4 @@
-package com.care.test.movie;
+package com.care.test.movie_ani;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;

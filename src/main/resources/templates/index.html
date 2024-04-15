@@ -66,9 +66,22 @@
 
         <!-- 추천 시리즈 목록 -->
         <div class="category">
-            <div class="title">추천 시리즈</div>
+            <div class="title">추천 애니 시리즈</div>
             <div class="list" id="recommended-movies-list"></div>
         </div>
+
+        <!-- 추천 시리즈 목록 -->
+        <div class="category">
+            <div class="title">추천 국내영화 시리즈</div>
+            <div class="list" id="recommended-kmovies-list"></div>
+        </div>
+
+        <!-- 추천 시리즈 목록 -->
+        <div class="category">
+            <div class="title">추천 해외영화 시리즈</div>
+            <div class="list" id="recommended-umovies-list"></div>
+        </div>
+
     </div>
 </div>
 
@@ -101,11 +114,16 @@
 </footer>
 
 <script>
+
+
+
     // 페이지 로드 시 호출되는 함수
-    window.addEventListener('load', displayMoviesAndVideos);
+    window.addEventListener('load', displayMoviesAndVideos); // 애니
+    window.addEventListener('load', displaykMoviesAndVideos); // 국내
+    window.addEventListener('load', displayuMoviesAndVideos); // 해외
 
     // 영화 클릭 시 추천 시리즈 목록 가져오고 보여주는 함수
-    function displayMoviesAndVideos() {
+    function displayMoviesAndVideos() { // 애니
         // AJAX 요청
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -120,8 +138,38 @@
         xhttp.send();
     }
 
+    function displaykMoviesAndVideos() { // 국내
+        // AJAX 요청
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+
+                // 추천 시리즈 목록 표시
+                displayRecommendedKMovies(responseData.movies);
+            }
+        };
+        xhttp.open("GET", "/kmovieinfoData", true);
+        xhttp.send();
+    }
+
+    function displayuMoviesAndVideos() { // 해외
+        // AJAX 요청
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+
+                // 추천 시리즈 목록 표시
+                displayRecommendedUMovies(responseData.movies);
+            }
+        };
+        xhttp.open("GET", "/umovieinfoData", true);
+        xhttp.send();
+    }
+
     // 추천 시리즈 목록을 화면에 표시하는 함수
-    function displayRecommendedMovies(movies) {
+    function displayRecommendedMovies(movies) { //애니
         var moviesContainer = document.getElementById('recommended-movies-list');
 
         movies.forEach((movieData, index) => {
@@ -147,17 +195,78 @@
             movieNameElement.textContent = movieData.moviename;
 
             movieElement.appendChild(movieImage);
-            movieElement.appendChild(movieNameElement);
             moviesContainer.appendChild(movieElement);
         });
-        console.log('추천 시리즈 목록 가져오기 성공.');
+        console.log('추천 애니 시리즈 목록 가져오기 성공.');
+    }
+
+    function displayRecommendedKMovies(movies) { // 국내
+        var moviesContainer = document.getElementById('recommended-kmovies-list');
+
+        movies.forEach((movieData, index) => {
+            var movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+            movieElement.dataset.moviename = movieData.moviename; // 썸네일에 moviename 데이터 설정
+
+            // Base64 이미지 데이터 디코딩
+            var decodedImageData = atob(movieData.thumbnail);
+            var decodedDataArray = new Uint8Array(decodedImageData.length);
+            for (var i = 0; i < decodedImageData.length; i++) {
+                decodedDataArray[i] = decodedImageData.charCodeAt(i);
+            }
+            var blob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+            var movieImage = document.createElement('img');
+            movieImage.src = URL.createObjectURL(blob);
+            movieImage.classList.add('kmovie-image'); // 수정된 부분
+
+            // 영화 이름을 표시할 요소 추가
+            var movieNameElement = document.createElement('div');
+            movieNameElement.classList.add('moviename');
+            movieNameElement.textContent = movieData.moviename;
+
+            movieElement.appendChild(movieImage);
+            moviesContainer.appendChild(movieElement);
+        });
+        console.log('추천 국내 시리즈 목록 가져오기 성공.');
+    }
+
+    function displayRecommendedUMovies(movies) { // 해외
+        var moviesContainer = document.getElementById('recommended-umovies-list');
+
+        movies.forEach((movieData, index) => {
+            var movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+            movieElement.dataset.moviename = movieData.moviename; // 썸네일에 moviename 데이터 설정
+
+            // Base64 이미지 데이터 디코딩
+            var decodedImageData = atob(movieData.thumbnail);
+            var decodedDataArray = new Uint8Array(decodedImageData.length);
+            for (var i = 0; i < decodedImageData.length; i++) {
+                decodedDataArray[i] = decodedImageData.charCodeAt(i);
+            }
+            var blob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+            var movieImage = document.createElement('img');
+            movieImage.src = URL.createObjectURL(blob);
+            movieImage.classList.add('umovie-image'); // 수정된 부분
+
+            // 영화 이름을 표시할 요소 추가
+            var movieNameElement = document.createElement('div');
+            movieNameElement.classList.add('moviename');
+            movieNameElement.textContent = movieData.moviename;
+
+            movieElement.appendChild(movieImage);
+            moviesContainer.appendChild(movieElement);
+        });
+        console.log('추천 해외 시리즈 목록 가져오기 성공.');
     }
 
     // 영화 썸네일 클릭 이벤트 처리
     document.addEventListener('click', function(event) {
         var target = event.target;
         // 클릭된 요소가 영화 썸네일 이미지인 경우
-        if (target.classList.contains('movie-image')) {
+        if (target.classList.contains('movie-image')) { // 애니
             // 썸네일 이미지의 부모 요소인 movie 클래스를 찾아서 그 요소의 moviename 가져오기
             var movieName = target.closest('.movie').dataset.moviename;
 
@@ -166,14 +275,44 @@
             // 컨트롤러에 요청 보내기
             requestStreaming(movieName);
         }
+        if (target.classList.contains('kmovie-image')) { // 국내
+            // 썸네일 이미지의 부모 요소인 movie 클래스를 찾아서 그 요소의 moviename 가져오기
+            var movieName = target.closest('.movie').dataset.moviename;
+
+            console.log("클릭된 썸네일의 영화 이름:", movieName);
+
+            // 컨트롤러에 요청 보내기
+            krequestStreaming(movieName);
+        }
+        if (target.classList.contains('umovie-image')) { // 해외
+            // 썸네일 이미지의 부모 요소인 movie 클래스를 찾아서 그 요소의 moviename 가져오기
+            var movieName = target.closest('.movie').dataset.moviename;
+
+            console.log("클릭된 썸네일의 영화 이름:", movieName);
+
+            // 컨트롤러에 요청 보내기
+            urequestStreaming(movieName);
+        }
     });
 
     // 영상 스트리밍 요청 및 클라이언트 측의 시간 업데이트 함수 수정
-    function requestStreaming(movieName) {
+    function requestStreaming(movieName) { // 애니
         var videoPlayer = document.getElementById('popupVideo');
         videoPlayer.src = '/streamingEndpoint?movieName=' + encodeURIComponent(movieName);
         openPopup();
     }
+    function krequestStreaming(movieName) { // 국내
+        var videoPlayer = document.getElementById('popupVideo');
+        videoPlayer.src = '/kstreamingEndpoint?movieName=' + encodeURIComponent(movieName);
+        openPopup();
+    }
+    function urequestStreaming(movieName) { // 해외
+        var videoPlayer = document.getElementById('popupVideo');
+        videoPlayer.src = '/ustreamingEndpoint?movieName=' + encodeURIComponent(movieName);
+        openPopup();
+    }
+
+
 
     // 팝업 열기 함수
     function openPopup() {

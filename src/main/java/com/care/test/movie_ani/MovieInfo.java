@@ -1,9 +1,9 @@
-package com.care.test.movie;
+package com.care.test.movie_ani;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "movieinfo")
+@Table(name = "movieinfo") // 애니메이션DB
 public class MovieInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
