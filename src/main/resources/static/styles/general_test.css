@@ -1,0 +1,18 @@
+body{
+    margin: 0;
+}
+.home{
+    position: relative;
+    background-color: #141414;
+    height: 100%;
+}
+.overlay {
+    position: relative; /* 부모 요소를 기준으로 자식 요소들을 배치하기 위해 relative로 변경 */
+    display: flex;
+    align-items: center; /* 자식 요소를 수직 가운데 정렬 */
+    justify-content: space-between; /* 자식 요소를 수평으로 공간을 분배하여 배치 */
+    left: 0;
+    top: 0;
+    width: calc(100% - 100px);
+    padding: 10px 50px;
+}

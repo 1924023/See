@@ -94,4 +94,14 @@ public class KMovieVideoStreamingController { // 국내영화
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/kmovieinfo")
+    public KMovieInfo getMovieInfo(@RequestParam String movieName) {
+        // 여기서는 movieName을 이용하여 해당 영화 정보를 데이터베이스에서 조회하고 반환하는 로직을 작성합니다.
+        // 실제로는 데이터베이스에서 해당 정보를 조회하거나 다른 방법으로 해당 정보를 가져옵니다.
+        // 예를 들어, MovieInfoRepository를 이용하여 movieName에 해당하는 영화 정보를 조회할 수 있습니다.
+        KMovieInfo movieInfo = kmovieInfoRepository.findByMoviename(movieName);
+        System.out.println();
+        return movieInfo;
+    }
 }

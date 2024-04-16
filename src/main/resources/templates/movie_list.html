@@ -2,14 +2,359 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Streaming Video</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>See</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="styles/general_test.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/contents_test.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/popup.css">
+    <!-- Font Awesome 아이콘 라이브러리 -->
+    <script src="https://kit.fontawesome.com/44abc8888a.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Streaming Video</h1>
-<video controls autoplay>
-    <!-- 서버에서 받아온 영화 비디오 파일의 URL을 사용하여 비디오를 재생합니다. -->
-    <source src="/streamMoviesData" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+<div class="home">
+
+    <div class="overlay">
+        <header class="header">
+            <img class="logo" src="assets/logo.png">
+            <div class="nav">
+                <div class="nav-item" onclick="goToHome()">홈</div>
+                <div class="nav-item" onclick="goToMovie()">영화 </div>
+                <div class="nav-item" onclick="goToContents()">NEW! 요즘 대새 콘텐츠</div>
+                <div class="nav-item" onclick="goToWish()">내가 찜한 리스트</div>
+            </div>
+            <div class="menu">
+                <div class="search" onclick="goToSearch()">
+                    <i class="fa-solid fa-magnifying-glass fa-2x" style="color: #ffffff;"></i>
+                </div>
+                <div class="notifications-icon-container" onclick="goToNotifications()">
+                    <img class="notifications-icon" src="assets/notification.png">
+                    <div class="notifications-count"></div>
+                </div>
+                <img class="profile" src="assets/profile.webp" onclick="goToProfile()">
+            </div>
+        </header>
+    </div>
+
+
+
+    <!-- 카테고리 목록 영역 -->
+    <div class="category-list">
+
+
+        <div class="category">
+            <div class="title">지브리 시리즈</div>
+            <div class="list" id="recommended-movies-list">
+            </div>
+        </div>
+
+        <!-- 추천 시리즈 목록 -->
+        <div class="category">
+            <div class="title">국내영화 인기 시리즈</div>
+            <div class="list" id="recommended-kmovies-list"></div>
+        </div>
+
+        <!-- 추천 시리즈 목록 -->
+        <div class="category">
+            <div class="title">해외영화 인기 시리즈</div>
+            <div class="list" id="recommended-umovies-list"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 팝업 영역 -->
+<div id="videoPopup" class="popup">
+    <div class="popup-content">
+        <!-- 팝업 닫기 버튼 -->
+        <span class="close" onclick="closePopup()">&times;</span>
+
+        <!-- 배우 목록 -->
+        <ul id="actorList"></ul>
+
+        <!-- 비디오 플레이어 -->
+        <video id="popupVideo" controls style="width: 100%;" onclick="seekToTime(event)"></video>
+    </div>
+</div>
+
+
+<footer>
+    <div class="info">
+        <span>See 통신판매업신고번호: 제 9999 전화번호: 9999-9999 (수신자 부담)</span> <br> <br>
+        <span>대표: 박정현, 조승연</span> <br> <br>
+        <span>이메일 주소: qkrwjdgus1441@naver.com</span> <br><br>
+        <span>주소: 대한민국</span> <br><br>
+        <span>사업자등록번호: 9999-9999-99</span> <br><br>
+    </div>
+</footer>
+
+<script>
+
+    // 페이지 로드 시 호출되는 함수
+    window.addEventListener('load', displayMoviesAndVideos); // 애니
+    window.addEventListener('load', displaykMoviesAndVideos); // 국내
+    window.addEventListener('load', displayuMoviesAndVideos); // 해외
+
+    // 영화 클릭 시 추천 시리즈 목록 가져오고 보여주는 함수
+    function displayMoviesAndVideos() { // 애니
+        // AJAX 요청
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+
+                // 추천 시리즈 목록 표시
+                displayRecommendedMovies(responseData.movies);
+            }
+        };
+        xhttp.open("GET", "/movieinfoData", true);
+        xhttp.send();
+    }
+
+    function displaykMoviesAndVideos() { // 국내
+        // AJAX 요청
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+
+                // 추천 시리즈 목록 표시
+                displayRecommendedKMovies(responseData.movies);
+            }
+        };
+        xhttp.open("GET", "/kmovieinfoData", true);
+        xhttp.send();
+    }
+
+
+    function displayuMoviesAndVideos() { // 해외
+        // AJAX 요청
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+
+                // 추천 시리즈 목록 표시
+                displayRecommendedUMovies(responseData.movies);
+            }
+        };
+        xhttp.open("GET", "/umovieinfoData", true);
+        xhttp.send();
+    }
+
+
+    // 추천 시리즈 목록을 화면에 표시하는 함수
+    function displayRecommendedMovies(movies) { //애니
+        var moviesContainer = document.getElementById('recommended-movies-list');
+
+        movies.forEach((movieData, index) => {
+            var movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+            movieElement.dataset.moviename = movieData.moviename; // 썸네일에 moviename 데이터 설정
+
+            // Base64 이미지 데이터 디코딩
+            var decodedImageData = atob(movieData.thumbnail);
+            var decodedDataArray = new Uint8Array(decodedImageData.length);
+            for (var i = 0; i < decodedImageData.length; i++) {
+                decodedDataArray[i] = decodedImageData.charCodeAt(i);
+            }
+            var blob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+            var movieImage = document.createElement('img');
+            movieImage.src = URL.createObjectURL(blob);
+            movieImage.classList.add('movie-image'); // 수정된 부분
+
+            // 영화 이름을 표시할 요소 추가
+            var movieNameElement = document.createElement('div');
+            movieNameElement.classList.add('moviename');
+            movieNameElement.textContent = movieData.moviename;
+
+
+
+            movieElement.appendChild(movieImage);
+            moviesContainer.appendChild(movieElement);
+        });
+        console.log('추천 애니 시리즈 목록 가져오기 성공.');
+    }
+
+    function displayRecommendedKMovies(movies) { // 국내
+        var moviesContainer = document.getElementById('recommended-kmovies-list');
+
+        movies.forEach((movieData, index) => {
+            var movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+            movieElement.dataset.moviename = movieData.moviename; // 썸네일에 moviename 데이터 설정
+
+            // Base64 이미지 데이터 디코딩
+            var decodedImageData = atob(movieData.thumbnail);
+            var decodedDataArray = new Uint8Array(decodedImageData.length);
+            for (var i = 0; i < decodedImageData.length; i++) {
+                decodedDataArray[i] = decodedImageData.charCodeAt(i);
+            }
+            var blob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+            var movieImage = document.createElement('img');
+            movieImage.src = URL.createObjectURL(blob);
+            movieImage.classList.add('kmovie-image'); // 수정된 부분
+
+            // 영화 이름을 표시할 요소 추가
+            var movieNameElement = document.createElement('div');
+            movieNameElement.classList.add('moviename');
+            movieNameElement.textContent = movieData.moviename;
+
+            var movieActorElement = document.createElement(('div'));
+            movieActorElement.classList.add('movieactor');
+            movieActorElement.textContent = movieData.movie;
+            movieElement.appendChild(movieImage);
+            moviesContainer.appendChild(movieElement);
+        });
+        console.log('추천 국내 시리즈 목록 가져오기 성공.');
+    }
+
+    function displayRecommendedUMovies(movies) { // 해외
+        var moviesContainer = document.getElementById('recommended-umovies-list');
+
+        movies.forEach((movieData, index) => {
+            var movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+            movieElement.dataset.moviename = movieData.moviename; // 썸네일에 moviename 데이터 설정
+
+            // Base64 이미지 데이터 디코딩
+            var decodedImageData = atob(movieData.thumbnail);
+            var decodedDataArray = new Uint8Array(decodedImageData.length);
+            for (var i = 0; i < decodedImageData.length; i++) {
+                decodedDataArray[i] = decodedImageData.charCodeAt(i);
+            }
+            var blob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+            var movieImage = document.createElement('img');
+            movieImage.src = URL.createObjectURL(blob);
+            movieImage.classList.add('umovie-image'); // 수정된 부분
+
+            // 영화 이름을 표시할 요소 추가
+            var movieNameElement = document.createElement('div');
+            movieNameElement.classList.add('moviename');
+            movieNameElement.textContent = movieData.moviename;
+
+            movieElement.appendChild(movieImage);
+            moviesContainer.appendChild(movieElement);
+        });
+        console.log('추천 해외 시리즈 목록 가져오기 성공.');
+    }
+
+    // 영화 썸네일 클릭 이벤트 처리
+    document.addEventListener('click', function(event) {
+        var target = event.target;
+        // 클릭된 요소가 영화 썸네일 이미지인 경우
+        if (target.classList.contains('movie-image')) { // 애니
+            // 썸네일 이미지의 부모 요소인 movie 클래스를 찾아서 그 요소의 moviename 가져오기
+            var movieName = target.closest('.movie').dataset.moviename;
+
+            console.log("클릭된 썸네일의 영화 이름:", movieName);
+            // 영화 정보를 가져오고 팝업에 표시
+            getMovieInfoAndDisplayPopup(movieName);
+
+            // 컨트롤러에 요청 보내기
+            requestStreaming(movieName);
+        }
+        if (target.classList.contains('kmovie-image')) { // 국내
+            // 썸네일 이미지의 부모 요소인 movie 클래스를 찾아서 그 요소의 moviename 가져오기
+            var movieName = target.closest('.movie').dataset.moviename;
+
+            console.log("클릭된 썸네일의 영화 이름:", movieName);
+
+            // 컨트롤러에 요청 보내기
+            krequestStreaming(movieName);
+        }
+        if (target.classList.contains('umovie-image')) { // 해외
+            // 썸네일 이미지의 부모 요소인 movie 클래스를 찾아서 그 요소의 moviename 가져오기
+            var movieName = target.closest('.movie').dataset.moviename;
+
+            console.log("클릭된 썸네일의 영화 이름:", movieName);
+
+            // 컨트롤러에 요청 보내기
+            urequestStreaming(movieName);
+        }
+    });
+
+    // 영상 스트리밍 요청 및 클라이언트 측의 시간 업데이트 함수 수정
+    function requestStreaming(movieName) { // 애니
+        var videoPlayer = document.getElementById('popupVideo');
+        videoPlayer.src = '/streamingEndpoint?movieName=' + encodeURIComponent(movieName);
+        openPopup(movieName);
+    }
+    function krequestStreaming(movieName) { // 국내
+        var videoPlayer = document.getElementById('popupVideo');
+        videoPlayer.src = '/kstreamingEndpoint?movieName=' + encodeURIComponent(movieName);
+        openPopup();
+    }
+    function urequestStreaming(movieName) { // 해외
+        var videoPlayer = document.getElementById('popupVideo');
+        videoPlayer.src = '/ustreamingEndpoint?movieName=' + encodeURIComponent(movieName);
+        openPopup();
+    }
+
+
+
+
+
+
+    // 팝업 열기 함수
+    function openPopup() {
+        var popup = document.getElementById('videoPopup');
+        popup.style.display = 'block'; // 수정된 부분
+
+    }
+
+    // 팝업 닫기 함수
+    function closePopup() {
+        var popup = document.getElementById('videoPopup');
+        popup.style.display = 'none'; // 수정된 부분
+    }
+
+    // 메뉴 클릭 시 동작 함수들
+    function goToHome() {
+        window.location.href = "index";
+    }
+
+    function goToMovie() {
+        alert("영화목록으로 이동");
+    }
+
+    function goToContents() {
+        alert("신규컨텐츠로 이동")
+    }
+
+    function goToWish() {
+        alert("찜목록으로 이동")
+    }
+
+    function goToSearch() {
+        alert("검색창 이동")
+    }
+
+    function goToNotifications() {
+        alert("알림창 이동")
+    }
+
+    function goToProfile() {
+        window.location.href = "login_success";
+    }
+
+    // 재생 버튼 클릭 시 동작 함수
+    function playVideo() {
+        alert("영상재생");
+    }
+
+    // 영상 정보 버튼 클릭 시 동작 함수
+    function infoVideo() {
+        alert("영상 상세정보")
+    }
+</script>
+
+
 </body>
 </html>

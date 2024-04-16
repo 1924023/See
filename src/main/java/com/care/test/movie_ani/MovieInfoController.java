@@ -17,6 +17,9 @@ public class MovieInfoController { // 애니메이션DB
     @GetMapping("/movieinfoupload")
     public String uploadMovie() { return "movieinfo_upload"; }
 
+    @GetMapping("/movie_list")
+    public String MovieList() { return "movie_list"; }
+
     @PostMapping("/movieinfoupload")
     public String uploadMovie(@ModelAttribute MovieInfo movieInfo,
                               @RequestParam("thumbnail") MultipartFile thumbnail,

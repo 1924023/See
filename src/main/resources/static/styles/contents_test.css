@@ -1,9 +1,38 @@
-.category-list{
-    display: flex;
-    flex-direction: column;
-    padding-left: 20px;
-    margin-top: -100px;
+/* 추가된 스타일 */
+.category-list {
+    position: relative;
+    overflow: hidden;
+    margin-top: 50px;
+    justify-content: center;
+}
 
+.scroll-buttons {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.scroll-buttons:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.scroll-buttons.left {
+    left: 0;
+}
+
+.scroll-buttons.right {
+    right: 0;
+}
+
+.category-list:hover .scroll-buttons {
+    display: flex;
 }
 
 /* Scrollbar 제거 */

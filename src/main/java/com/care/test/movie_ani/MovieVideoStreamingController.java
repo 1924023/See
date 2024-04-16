@@ -37,6 +37,9 @@ public class MovieVideoStreamingController { // 애니메이션DB
                     Map<String, Object> movieMap = new HashMap<>();
                     movieMap.put("moviename", movie.getMoviename()); // 영화 이름
                     movieMap.put("thumbnail", movie.getMoviethumbnail()); // 썸네일 이미지
+                    movieMap.put("actor", movie.getMovieactor()); // 영화배우
+                    movieMap.put("director", movie.getMoviedirector()); // 영화감독
+                    movieMap.put("genre", movie.getMoviegenre()); // 영화장르
                     return movieMap;
                 })
                 .collect(Collectors.toList());
@@ -89,5 +92,16 @@ public class MovieVideoStreamingController { // 애니메이션DB
             // 요청된 영화 이름에 해당하는 영상이 없는 경우 404 응답 반환
             return ResponseEntity.notFound().build();
         }
+
+
+    }
+    @GetMapping("/movieinfo")
+    public MovieInfo getMovieInfo(@RequestParam String movieName) {
+        // 여기서는 movieName을 이용하여 해당 영화 정보를 데이터베이스에서 조회하고 반환하는 로직을 작성합니다.
+        // 실제로는 데이터베이스에서 해당 정보를 조회하거나 다른 방법으로 해당 정보를 가져옵니다.
+        // 예를 들어, MovieInfoRepository를 이용하여 movieName에 해당하는 영화 정보를 조회할 수 있습니다.
+        MovieInfo movieInfo = movieInfoRepository.findByMoviename(movieName);
+        System.out.println(movieInfo.getMovieactor());
+        return movieInfo;
     }
 }
