@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+          integrity="sha384-FjORD9IBRcJ6H1+9Pe82Lqz8aE/uz5xja+Uq+aAEqQlV5EBp9kUAR+1uKSd5/dXe" crossorigin="anonymous">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* CSS from .nav-container to #notification-name */
+        .nav-container {
+            background-color: white;
+            width: 100%;
+            height: 60px;
+            box-shadow: 0px 2px 2px 2px #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 100px;
+        }
+
+        .search-box-input {
+            padding: 5px;
+            border-radius: 5px 0px 0px 5px;
+            border: 1px solid lightgrey;
+            width: 150px;
+            transition: width 1s;
+        }
+
+        .search-box-input:focus {
+            width: 300px;
+        }
+
+        .search-box-btn {
+            background-color: #343940;
+            color: white;
+            border: none;
+            border-radius: 0px 5px 5px 0px;
+            height: 36px;
+            width: 40px;
+        }
+
+        .notification {
+            display: flex;
+            margin-right: 20px;
+            align-items: center;
+        }
+
+        .notification-icon {
+            font-size: x-large;
+            margin-left: 60px;
+            color: #808080;
+            margin-bottom: 20px;
+        }
+
+        .notification-badge {
+            position: relative;
+            left: 15px;
+            top: 16px;
+            background-color: #dc3545;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: small;
+            font-weight: 600;
+        }
+
+        #notification-name {
+            margin-left: 40px;
+            color: grey;
+        }
+
+        /* CSS from .ani-navbar to .ani-navbar:hover i */
+        .ani-navbar {
+            background-color: #494cb4;
+            color: white;
+            width: 200px;
+            height: 100%;
+            padding: 25px;
+            position: fixed;
+            z-index: 5;
+            transition: all 1s;
+            text-align: center;
+            transform: translateX(-150px);
+        }
+
+        .ani-navbar:hover {
+            transform: translateX(0px);
+            transition: all 0.5s;
+        }
+
+        .ani-navbar-menu {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .ani-navbar-menu p {
+            margin: 0;
+            margin-left: 10px;
+        }
+
+        .ani-navbar i {
+            transition: all 0.5s;
+            transform: translateX(125px);
+        }
+
+        .ani-navbar:hover i {
+            transform: translateX(0px);
+        }
+    </style>
+</head>
+
+<body>
+<nav class="nav-container">
+    <div class="search-box">
+        <input type="text" class="search-box-input" placeholder="Search" />
+        <button class="search-box-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+
+    <div class="notification">
+        <div class="notification-icon">
+            <span class="notification-badge">5</span>
+            <i class="fa-solid fa-bell"></i>
+        </div>
+        <div class="notification-icon">
+            <span class="notification-badge">9</span>
+            <i class="fa-solid fa-envelope"></i>
+        </div>
+        <span id="notification-name">Hyewon Shin</span>
+    </div>
+</nav>
+
+<nav class="ani-navbar">
+    <div class="ani-navbar-menu">
+        <i class="fa-solid fa-house ani-navbar-menu__icon"></i>
+        <p>Home</p>
+    </div>
+    <div class="ani-navbar-menu ani-navbar-menu__icon">
+        <i class="fa-solid fa-headphones"></i>
+        <p>Services</p>
+    </div>
+    <div class="ani-navbar-menu ani-navbar-menu__icon">
+        <i class="fa-solid fa-flag"></i>
+        <p>Alerts</p>
+    </div>
+    <div class="ani-navbar-menu ani-navbar-menu__icon">
+        <i class="fa-solid fa-chart-pie"></i>
+        <p>Stats</p>
+    </div>
+</nav>
+
+<div class="container">
+    <h4 class="my-4">Dashboard</h4>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card monthly">
+                <div class="card-body d-flex justify-content-between">
+                    <div>
+                        <p class="card-text mb-2">Earnings (Monthly)</p>
+                        <h4>$400,000</h4>
+                    </div>
+                    <i class="fas fa-calendar" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card annual">
+                <div class="card-body d-flex justify-content-between">
+                    <div>
+                        <p class="card-text mb-2">Earnings (Annual)</p>
+                        <h4>$800,000</h4>
+                    </div>
+                    <i class="fa-solid fa-dollar-sign" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card tasks">
+                <div class="card-body d-flex justify-content-between">
+                    <div>
+                        <p class="card-text mb-2">Tasks</p>
+                        <h4>13</h4>
+                    </div>
+                    <i class="fa-solid fa-list-check" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card requests">
+                <div class="card-body d-flex justify-content-between">
+                    <div>
+                        <p class="card-text mb-2">Requests</p>
+                        <h4>26</h4>
+                    </div>
+                    <i class="fa-solid fa-comments" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card-header h5">Earning Overview</div>
+            <div class="card-body"><canvas id="myChart"></canvas></div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header h5">Tasks</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Borrowed Items</li>
+                    <li class="list-group-item">Trello requests</li>
+                    <li class="list-group-item">Marked Comments</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June"],
+            datasets: [{
+                label: "Monthly",
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1,
+                fill: true,
+                tension: 0.2,
+            }, ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+</script>
+</body>
+
+</html>
