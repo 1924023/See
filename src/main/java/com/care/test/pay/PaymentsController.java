@@ -36,7 +36,7 @@ public class PaymentsController {
         System.out.println("Ticket id: " + payment.getTicket_id());
         System.out.println("Ticket uid: " + payment.getTicket_uid());
         System.out.println("Ticket Name: " + payment.getTicket_name());
-        System.out.println("Ticket Username: " + payment.getTicket_username());
+        System.out.println("Ticket Username: " + payment.getTicketusername());
         System.out.println("Ticket date : " + payment.getTicket_date());
         System.out.println("Ticket Price: " + payment.getAmount());
 

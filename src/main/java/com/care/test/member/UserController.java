@@ -1,5 +1,7 @@
 package com.care.test.member;
 
+import com.care.test.pay.Payment;
+import com.care.test.pay.PaymentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +10,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.List;
 @Controller
 public class UserController {
 
     private final UserRepository userRepository;
+    private final PaymentRepository paymentRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, PaymentRepository paymentRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.paymentRepository = paymentRepository;
     }
     @RequestMapping("/home")
     public String root(){
@@ -30,10 +33,21 @@ public class UserController {
     @GetMapping("/join")
     public String join(){
         System.out.println("GetMapping /join");
-        return "join";
+        return "join/join";
     }
     @GetMapping("/index")
-    public String index(){
+    public String index(HttpSession session){
+        if(session.getAttribute("login_success_id") == null){
+            //alert 후 home 페이지로
+            System.out.println("로그인 후 이용 가능합니다.");
+            return "home";
+        }else{
+            System.out.println(session.getAttribute("login_success_id"));
+            if(paymentRepository.findByTicketusername((String)session.getAttribute("login_success_id")) == null){
+                System.out.println("이용권이 등록되어 있지 않습니다. 이용권 등록 후 이용해주세요.");
+                return "home";
+            }
+        }
         return "index";
     }
     @PostMapping("/join")
@@ -50,18 +64,18 @@ public class UserController {
         member.setPw(encodedPassword);
         //회원가입 정보 db에 저장
         userRepository.save(member);
-        return "login";
+        return "login/login";
     }
 
     @GetMapping("/login")
     public String login(){
         System.out.println("GetMapping /login");
-        return "login";
+        return "login/login";
     }
 
     @GetMapping("/login_success")
     public String login_success(){
-        return "login_success";
+        return "login/login_success";
     }
 
     @PostMapping("login")
@@ -81,9 +95,9 @@ public class UserController {
                 HttpSession session = request.getSession(); //일치 시 session 생성
                 session.setAttribute("login_success_id", foundId); //session에 일치한 id값 저장
                 System.out.println("get session");
-                return "redirect:/index";
+                return "redirect:index";
             } else {
-                return "redirect:login_fail";
+                return "redirect:login/login_fail";
             }
         }
         return "찾으시는 아이디가 없습니다.";
@@ -97,7 +111,7 @@ public class UserController {
         System.out.println(member.getLoginid());
         model.addAttribute("member", member);
         System.out.println("Getmapping update");
-        return "update";
+        return "user/update";
     }
 
     @PostMapping("/update")
@@ -105,7 +119,7 @@ public class UserController {
         String encodedPassword = passwordEncoder.encode(member.getPw());
         member.setPw(encodedPassword);
         userRepository.save(member);
-        return "myData";
+        return "redirect:user/myData";
     }
 
     //삭제 후 화면 출력이 좀 이상해서 점검 해야함
@@ -116,6 +130,7 @@ public class UserController {
         System.out.println("session id : " + session_id);
         Member foundId = userRepository.findByLoginid((session_id)); //해당 id값을 가진 칼럼 조회
         userRepository.delete(foundId); //그 아이디 삭제
+
         session.invalidate(); //해당 세션 제거
         return "home";
     }
@@ -127,7 +142,7 @@ public class UserController {
         List<Member> members = new ArrayList<>(); //Member형태로 List객체 생성
         members.add(member); //List에 member 인스턴스에 넣은 데이터 추가
         model.addAttribute("members", members); //모델에 해당 데이터 넣기
-        return "myData";
+        return "user/myData";
     }
 
     @PostMapping("/logout")

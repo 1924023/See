@@ -1,6 +1,5 @@
 package com.care.test.admin;
 
-import com.care.test.member.Member;
 import com.care.test.member.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -28,7 +27,7 @@ public class AdminController {
     @GetMapping("/adjoin")
     public String join(){
         System.out.println("GetMapping /adjoin");
-        return "join_admin";
+        return "join/join_admin";
     }
     @PostMapping("/adjoin")
     public String registerAdmin(@ModelAttribute("admin_id") Admin admin, Model model) {
@@ -41,11 +40,11 @@ public class AdminController {
         admin.setAdminpw(encodedPassword);
         //회원가입 정보 db에 저장
         adminRepository.save(admin);
-        return "login_admin";
+        return "login/adlogin";
     }
     @GetMapping("/adlogin")
     public String login(){
-        return "login_admin";
+        return "login/login_admin";
     }
     @PostMapping("/adlogin")
     public String login(@ModelAttribute("login_data_admin")Admin admin, HttpServletRequest request){
@@ -61,9 +60,9 @@ public class AdminController {
                 HttpSession session = request.getSession(); //일치 시 session 생성
                 session.setAttribute("admin_login_id", foundId); //session에 일치한 id값 저장
                 System.out.println("get session");
-                return "login_success_admin";
+                return "admin_index";
             } else {
-                return "redirect:login_fail";
+                return "redirect:login/login_fail";
             }
         }
         return "찾으시는 아이디가 없습니다.";
@@ -73,7 +72,7 @@ public class AdminController {
     public String getAllUsers(Model model) {
         //userRepository 가져와서 해당 데이터 출력
         model.addAttribute("members", userRepository.findAll());
-        return "userList"; // user-myData.html 파일과 매핑됩니다.
+        return "admin/userList"; // user-myData.html 파일과 매핑됩니다.
     }
 
     @PostMapping("/addelete")
@@ -94,7 +93,7 @@ public class AdminController {
         System.out.println(admin.getAdminid());
         model.addAttribute("admin", admin);
         System.out.println("Getmapping update");
-        return "update";
+        return "admin/update";
     }
 
     @PostMapping("/adupdate")
@@ -102,6 +101,6 @@ public class AdminController {
         String encodedPassword = passwordEncoder.encode(admin.getAdminpw());
         admin.setAdminpw(encodedPassword);
         adminRepository.save(admin);
-        return "myData";
+        return "user/myData";
     }
 }

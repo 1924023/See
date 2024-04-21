@@ -11,7 +11,7 @@ public class Payment { // 결제정보를 넣을 Entity
     private String ticket_id; // 결제번호
     private String ticket_uid; // 고유번호
     private String ticket_name; //티켓이름(정기구독권)
-    private String ticket_username; // userid
+    private String ticketusername; // userid
     private String amount; // 결제가격
     private LocalDate ticket_date; // 결제날짜
 
@@ -55,11 +55,11 @@ public class Payment { // 결제정보를 넣을 Entity
         this.ticket_name = ticket_name;
     }
 
-    public String getTicket_username() {
-        return ticket_username;
+    public String getTicketusername() {
+        return ticketusername;
     }
 
-    public void setTicket_username(String ticket_username) {
-        this.ticket_username = ticket_username;
+    public void setTicketusername(String ticketusername) {
+        this.ticketusername = ticketusername;
     }
 }
