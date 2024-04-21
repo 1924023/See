@@ -6,9 +6,9 @@
     <title>See</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- CSS 파일 링크 -->
-    <link rel="stylesheet" href="styles/general_test.css">
+    <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/header.css">
-    <link rel="stylesheet" href="styles/contents_test.css">
+    <link rel="stylesheet" href="styles/contents.css">
     <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/popup.css">
     <!-- Font Awesome 아이콘 라이브러리 -->
@@ -16,15 +16,12 @@
 </head>
 <body>
 <div class="home">
-
     <div class="overlay">
         <header class="header">
             <img class="logo" src="assets/logo.png">
             <div class="nav">
                 <div class="nav-item" onclick="goToHome()">홈</div>
                 <div class="nav-item" onclick="goToMovie()">영화 </div>
-                <div class="nav-item" onclick="goToContents()">NEW! 요즘 대새 콘텐츠</div>
-                <div class="nav-item" onclick="goToWish()">내가 찜한 리스트</div>
             </div>
             <div class="menu">
                 <div class="search" onclick="goToSearch()">
@@ -39,46 +36,57 @@
         </header>
     </div>
 
-
-
     <!-- 카테고리 목록 영역 -->
     <div class="category-list">
-
+        <!-- 시청 중인 콘텐츠 목록 -->
+        <div class="category">
+            <div class="title">user님이 시청중인 콘텐츠</div>
+            <div class="list" id="watching-list"></div>
+        </div>
 
         <div class="category">
-            <div class="title">지브리 시리즈</div>
+            <div class="title">추천 애니 시리즈</div>
             <div class="list" id="recommended-movies-list">
             </div>
         </div>
 
         <!-- 추천 시리즈 목록 -->
         <div class="category">
-            <div class="title">국내영화 인기 시리즈</div>
+            <div class="title">추천 국내영화 시리즈</div>
             <div class="list" id="recommended-kmovies-list"></div>
         </div>
 
         <!-- 추천 시리즈 목록 -->
         <div class="category">
-            <div class="title">해외영화 인기 시리즈</div>
+            <div class="title">추천 해외영화 시리즈</div>
             <div class="list" id="recommended-umovies-list"></div>
         </div>
 
     </div>
 </div>
 
-<!-- 팝업 영역 -->
+<!-- 팝업창 -->
 <div id="videoPopup" class="popup">
-    <div class="popup-content">
-        <!-- 팝업 닫기 버튼 -->
-        <span class="close" onclick="closePopup()">&times;</span>
-
-        <!-- 배우 목록 -->
-        <ul id="actorList"></ul>
-
-        <!-- 비디오 플레이어 -->
-        <video id="popupVideo" controls style="width: 100%;" onclick="seekToTime(event)"></video>
+    <span class="close" onclick="closePopup()">&times;</span>
+    <div id="movieInfo" style="display: flex; align-items: flex-start;">
+        <div class="popup-content">
+            <div id="videoText" style="position: relative;">
+                <!-- 영화 정보 텍스트 -->
+                <h1 style="font-size: 50px; padding-left: 20px;"><span id="movieName"></span></h1>
+                <p style="font-size: 15px; padding-left: 20px;">감독 : <span id="movieDirector"></span></p>
+                <p style="font-size: 15px; padding-left: 20px; margin-bottom: 50px;">배우 : <span id="movieActors"></span></p>
+                <p style="font-size: 18px; padding-left: 25px;">"<span id="movieGenre"></span>"</p>
+                <!-- 비디오 플레이어 및 전체 화면 재생 버튼 -->
+                <video id="popupVideo" controls style="width: 1%; margin-bottom: 80px;"></video>
+                <button class="fullScreenButton" onclick="toggleFullScreen()">▶︎재생</button>
+                <button class="fullScreenButton" onclick="Review()">★리뷰</button>
+            </div>
+        </div>
+        <img class="logo" src="assets/logo.png" style="margin-top: 20px; margin-left: auto;">
     </div>
 </div>
+
+
 
 
 <footer>
@@ -92,6 +100,34 @@
 </footer>
 
 <script>
+
+    function toggleFullScreen() { // 비디오 작게 숨기고 재생버튼 누를시 바로 전체화면
+        var videoPlayer = document.getElementById('popupVideo');
+
+        if (!document.fullscreenElement) {
+            // 비디오 플레이어가 전체 화면 모드가 아닌 경우 전체 화면으로 변경
+            if (videoPlayer.requestFullscreen) {
+                videoPlayer.requestFullscreen();
+            } else if (videoPlayer.mozRequestFullScreen) { /* Firefox */
+                videoPlayer.mozRequestFullScreen();
+            } else if (videoPlayer.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                videoPlayer.webkitRequestFullscreen();
+            } else if (videoPlayer.msRequestFullscreen) { /* IE/Edge */
+                videoPlayer.msRequestFullscreen();
+            }
+        } else {
+            // 전체 화면 모드인 경우 전체 화면 종료
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
+            }
+        }
+    }
 
     // 페이지 로드 시 호출되는 함수
     window.addEventListener('load', displayMoviesAndVideos); // 애니
@@ -254,8 +290,6 @@
             var movieName = target.closest('.movie').dataset.moviename;
 
             console.log("클릭된 썸네일의 영화 이름:", movieName);
-            // 영화 정보를 가져오고 팝업에 표시
-            getMovieInfoAndDisplayPopup(movieName);
 
             // 컨트롤러에 요청 보내기
             requestStreaming(movieName);
@@ -289,29 +323,91 @@
     function krequestStreaming(movieName) { // 국내
         var videoPlayer = document.getElementById('popupVideo');
         videoPlayer.src = '/kstreamingEndpoint?movieName=' + encodeURIComponent(movieName);
-        openPopup();
+        openKPopup(movieName);
     }
     function urequestStreaming(movieName) { // 해외
         var videoPlayer = document.getElementById('popupVideo');
         videoPlayer.src = '/ustreamingEndpoint?movieName=' + encodeURIComponent(movieName);
-        openPopup();
+        openUPopup(movieName);
     }
 
+    // AJAX 요청으로 영화 정보를 가져오는 함수
+    function getMovieInfoAndDisplay(movieName) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var movieInfo = JSON.parse(this.responseText);
+                setMovieInfo(movieInfo);
+            }
+        };
+        xhttp.open("GET", "/movieinfo?movieName=" + encodeURIComponent(movieName), true);
+        xhttp.send();
+    }
 
+    function getKMovieInfoAndDisplay(movieName) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var movieInfo = JSON.parse(this.responseText);
+                setMovieInfo(movieInfo);
+            }
+        };
+        xhttp.open("GET", "/kmovieinfo?movieName=" + encodeURIComponent(movieName), true);
+        xhttp.send();
+    }
 
+    function getUMovieInfoAndDisplay(movieName) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var movieInfo = JSON.parse(this.responseText);
+                setMovieInfo(movieInfo);
+            }
+        };
+        xhttp.open("GET", "/umovieinfo?movieName=" + encodeURIComponent(movieName), true);
+        xhttp.send();
+    }
 
+    function setMovieInfo(movieInfo) {
+        // 영화 정보 설정
+        document.getElementById('movieName').textContent = movieInfo.moviename;
+        document.getElementById('movieActors').textContent = movieInfo.movieactor;
+        document.getElementById('movieDirector').textContent = movieInfo.moviedirector;
+        document.getElementById('movieGenre').textContent = movieInfo.moviegenre;
+    }
 
 
     // 팝업 열기 함수
-    function openPopup() {
+    function openPopup(movieName) {
         var popup = document.getElementById('videoPopup');
         popup.style.display = 'block'; // 수정된 부분
 
+        getMovieInfoAndDisplay(movieName);
+    }
+
+    function openKPopup(movieName) {
+        var popup = document.getElementById('videoPopup');
+        popup.style.display = 'block'; // 수정된 부분
+
+        getKMovieInfoAndDisplay(movieName);
+    }
+
+    function openUPopup(movieName) {
+        var popup = document.getElementById('videoPopup');
+        popup.style.display = 'block'; // 수정된 부분
+
+        getUMovieInfoAndDisplay(movieName);
     }
 
     // 팝업 닫기 함수
-    function closePopup() {
+    function closePopup() { // 팝업 닫을시 영상 중지
         var popup = document.getElementById('videoPopup');
+        var videoPlayer = document.getElementById('popupVideo');
+
+        // 동영상 재생 중지
+        videoPlayer.pause();
+
+        // 팝업 닫기
         popup.style.display = 'none'; // 수정된 부분
     }
 
@@ -321,7 +417,7 @@
     }
 
     function goToMovie() {
-        alert("영화목록으로 이동");
+        window.location.href = "movie_list"
     }
 
     function goToContents() {

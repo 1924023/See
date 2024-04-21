@@ -20,6 +20,9 @@ public class MovieInfoController { // 애니메이션DB
     @GetMapping("/movie_list")
     public String MovieList() { return "movie_list"; }
 
+    @GetMapping("/review")
+    public String Review() { return "review"; }
+
     @PostMapping("/movieinfoupload")
     public String uploadMovie(@ModelAttribute MovieInfo movieInfo,
                               @RequestParam("thumbnail") MultipartFile thumbnail,

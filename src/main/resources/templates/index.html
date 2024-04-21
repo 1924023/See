@@ -16,25 +16,20 @@
 </head>
 <body>
 <div class="home">
-    <img class="ad" src="assets/main_movie.webp">
+    <img class="ad" src="assets/2.jpg">
     <div class="overlay">
         <header class="header">
             <img class="logo" src="assets/logo.png">
             <div class="nav">
                 <div class="nav-item" onclick="goToHome()">홈</div>
-                <div class="nav-item" onclick="goToMovie()">영화 </div>
-                <div class="nav-item" onclick="goToContents()">NEW! 요즘 대새 콘텐츠</div>
-                <div class="nav-item" onclick="goToWish()">내가 찜한 리스트</div>
+                <div class="nav-item" onclick="goToMovie()">영화 시리즈 모음 </div>
+                <div class="nav-item" onclick="goToContents()">추천 콘텐츠</div>
             </div>
             <div class="menu">
                 <div class="search" onclick="goToSearch()">
                     <i class="fa-solid fa-magnifying-glass fa-2x" style="color: #ffffff;"></i>
                 </div>
-                <div class="notifications-icon-container" onclick="goToNotifications()">
-                    <img class="notifications-icon" src="assets/notification.png">
-                    <div class="notifications-count"></div>
-                </div>
-                <img class="profile" src="assets/profile.webp" onclick="goToProfile()">
+                <img class="profile" src="assets/user.png" onclick="goToProfile()">
             </div>
         </header>
     </div>
@@ -42,8 +37,8 @@
     <!-- 배너 영역 -->
     <div class="banner">
         <img class="ad-title" src="assets/main_movie_title.webp">
-        <div class="comment">영상소개</div>
-        <div class="description">영상소개글<br></div>
+        <div class="comment">줄거리</div>
+        <div class="description">기이한 병이 대물림되는 집안의 장손에게 거액의 의뢰를 받은 무당 화림과 봉길. 조상의 묫자리가 화근임을 알아챈 두 사람은 풍수사 상덕과 장의사 영근에게 도움을 청하지만, 상덕은 불길한 기운을 감지한다.<br></div>
         <div class="buttons">
             <div class="play-button" onclick="playVideo()">
                 <i class="fa-solid fa-play" style="color: #000000;"></i>
@@ -60,7 +55,7 @@
     <div class="category-list">
         <!-- 시청 중인 콘텐츠 목록 -->
         <div class="category">
-            <div class="title">user님이 시청중인 콘텐츠</div>
+            <div class="title" id="user-title"></div>
             <div class="list" id="watching-list"></div>
         </div>
 
@@ -99,18 +94,13 @@
                 <!-- 비디오 플레이어 및 전체 화면 재생 버튼 -->
                 <video id="popupVideo" controls style="width: 1%; margin-bottom: 80px;"></video>
                 <button class="fullScreenButton" onclick="toggleFullScreen()">▶︎재생</button>
-                <button class="fullScreenButton" onclick="Review()">★리뷰</button>
+                <button class="fullScreenButton" onclick="writeReview()">★리뷰</button>
+
             </div>
         </div>
         <img class="logo" src="assets/logo.png" style="margin-top: 20px; margin-left: auto;">
     </div>
 </div>
-
-
-
-
-
-
 
 
 
@@ -126,6 +116,30 @@
 </footer>
 
 <script>
+
+
+
+    // 페이지 로드 시 호출되는 함수
+    window.addEventListener('load', displayMoviesAndVideos); // 애니
+    window.addEventListener('load', displaykMoviesAndVideos); // 국내
+    window.addEventListener('load', displayuMoviesAndVideos); // 해외
+    window.addEventListener('load', getSessionIdAndUpdateSessionId); // 세션값
+
+    function getSessionIdAndUpdateSessionId() { // 페이지 로드 시 세션 ID를 서버로부터 받아오는 함수
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+                var sessionId = responseData.session_id;
+                // 세션 ID를 받아왔으므로 이를 화면에 표시합니다.
+                document.getElementById("user-title").innerText = sessionId + "님이 시청중인 콘텐츠";
+                console.log("받은 세션 ID:", sessionId);
+                // 여기서 받은 세션 ID를 활용하여 추가 작업을 수행할 수 있습니다.
+            }
+        };
+        xhttp.open("GET", "/sessionid", true);
+        xhttp.send();
+    }
 
     function toggleFullScreen() { // 비디오 작게 숨기고 재생버튼 누를시 바로 전체화면
         var videoPlayer = document.getElementById('popupVideo');
@@ -155,10 +169,7 @@
         }
     }
 
-    // 페이지 로드 시 호출되는 함수
-    window.addEventListener('load', displayMoviesAndVideos); // 애니
-    window.addEventListener('load', displaykMoviesAndVideos); // 국내
-    window.addEventListener('load', displayuMoviesAndVideos); // 해외
+
 
     // 영화 클릭 시 추천 시리즈 목록 가져오고 보여주는 함수
     function displayMoviesAndVideos() { // 애니
@@ -340,6 +351,8 @@
         }
     });
 
+
+
     // 영상 스트리밍 요청 및 클라이언트 측의 시간 업데이트 함수 수정
     function requestStreaming(movieName) { // 애니
         var videoPlayer = document.getElementById('popupVideo');
@@ -356,6 +369,7 @@
         videoPlayer.src = '/ustreamingEndpoint?movieName=' + encodeURIComponent(movieName);
         openUPopup(movieName);
     }
+
 
     // AJAX 요청으로 영화 정보를 가져오는 함수
     function getMovieInfoAndDisplay(movieName) {
@@ -436,6 +450,7 @@
         // 팝업 닫기
         popup.style.display = 'none'; // 수정된 부분
     }
+
 
     // 메뉴 클릭 시 동작 함수들
     function goToHome() {

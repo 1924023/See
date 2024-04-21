@@ -19,6 +19,7 @@ public class MovieInfo {
 
     private String moviegenre;
 
+
     public Long getId() {
         return id;
     }
@@ -43,6 +44,8 @@ public class MovieInfo {
         return moviename;
     }
 
+
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -66,4 +69,5 @@ public class MovieInfo {
     public void setMoviegenre(String moviegenre) {
         this.moviegenre = moviegenre;
     }
+
 }

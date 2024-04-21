@@ -39,8 +39,8 @@
 }
 
 .fullScreenButton {
-    background-color: #08025c; /* 남색 배경 */
-    color: white; /* 흰 글씨 */
+    background-color: white; /* 남색 배경 */
+    color: black; /* 흰 글씨 */
     padding: 15px 25px; /* 내부 여백 */
     border: none; /* 테두리 없음 */
     border-radius: 5px; /* 둥근 테두리 */
@@ -50,6 +50,6 @@
 
 /* 버튼 호버 효과 */
 .fullScreenButton:hover {
-    background-color: #040133; /* 호버 시 진한 남색으로 변경 */
+    background-color: #c1c8cb; /* 호버 시 진한 남색으로 변경 */
 }
 
