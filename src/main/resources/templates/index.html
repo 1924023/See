@@ -94,13 +94,21 @@
                 <!-- 비디오 플레이어 및 전체 화면 재생 버튼 -->
                 <video id="popupVideo" controls style="width: 1%; margin-bottom: 80px;"></video>
                 <button class="fullScreenButton" onclick="toggleFullScreen()">▶︎재생</button>
-                <button class="fullScreenButton" onclick="writeReview()">★리뷰</button>
+                <!-- 리뷰 작성 버튼 클릭 시 openReviewForm 함수 호출 -->
+                <button class="fullScreenButton" onclick="openReviewForm()">★리뷰 작성</button>
 
+                <!-- 리뷰 작성 폼 -->
+                <div id="reviewForm" style="display: none;">
+                    <input type="text" id="reviewText" placeholder="리뷰를 작성해주세요">
+                    <input type="hidden" id="reviewMovieName" name="movieName"> <!-- 영화 이름 입력란 추가 -->
+                    <button onclick="saveReview()">저장</button>
+                </div>
             </div>
         </div>
         <img class="logo" src="assets/logo.png" style="margin-top: 20px; margin-left: auto;">
     </div>
 </div>
+
 
 
 
@@ -118,28 +126,28 @@
 <script>
 
 
-
     // 페이지 로드 시 호출되는 함수
     window.addEventListener('load', displayMoviesAndVideos); // 애니
     window.addEventListener('load', displaykMoviesAndVideos); // 국내
     window.addEventListener('load', displayuMoviesAndVideos); // 해외
     window.addEventListener('load', getSessionIdAndUpdateSessionId); // 세션값
 
-    function getSessionIdAndUpdateSessionId() { // 페이지 로드 시 세션 ID를 서버로부터 받아오는 함수
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var responseData = JSON.parse(this.responseText);
-                var sessionId = responseData.session_id;
-                // 세션 ID를 받아왔으므로 이를 화면에 표시합니다.
-                document.getElementById("user-title").innerText = sessionId + "님이 시청중인 콘텐츠";
-                console.log("받은 세션 ID:", sessionId);
-                // 여기서 받은 세션 ID를 활용하여 추가 작업을 수행할 수 있습니다.
-            }
-        };
-        xhttp.open("GET", "/sessionid", true);
-        xhttp.send();
+    function getSessionIdAndUpdateSessionId() { // 세션 id 추출
+        return new Promise(function(resolve, reject) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var responseData = JSON.parse(this.responseText);
+                    var sessionId = responseData.session_id;
+                    document.getElementById("user-title").innerText = sessionId + "님이 시청중인 콘텐츠";
+                    console.log("받은 세션 ID:", sessionId);
+                }
+            };
+            xhttp.open("GET", "/sessionid", true);
+            xhttp.send();
+        });
     }
+
 
     function toggleFullScreen() { // 비디오 작게 숨기고 재생버튼 누를시 바로 전체화면
         var videoPlayer = document.getElementById('popupVideo');
@@ -408,6 +416,7 @@
         xhttp.send();
     }
 
+
     function setMovieInfo(movieInfo) {
         // 영화 정보 설정
         document.getElementById('movieName').textContent = movieInfo.moviename;
@@ -490,6 +499,88 @@
     function infoVideo() {
         alert("영상 상세정보")
     }
+
+    // 리뷰 작성 폼 열기 함수
+    function openReviewForm() {
+        var movieName = document.getElementById("movieName").textContent;
+        document.getElementById("reviewForm").style.display = "block";
+        document.getElementById("reviewMovieName").value = movieName; // 영화 이름 입력란에 값 채워 넣기
+    }
+
+    // 리뷰 저장 함수
+    function saveReview() {
+        var reviewText = document.getElementById("reviewText").value;
+        var movieName = document.getElementById("movieName").textContent; // 이미 가져온 영화 이름 사용
+
+        var loginId = "익명";
+
+        // 현재 시간을 가져와 ISO 형식으로 변환
+        var currentTime = new Date().toISOString();
+
+        var reviewData = {
+            "movieName": movieName,
+            "loginId": loginId,
+            "reviewText": reviewText,
+            "currentTime": currentTime // 현재 시간 추가
+        };
+
+
+        // 리뷰를 서버로 보냄
+        fetch('/api/kmoviereview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reviewData),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('리뷰가 성공적으로 저장되었습니다.');
+                    closePopup(); // 리뷰 저장 후 팝업 창 닫기
+                } else {
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        fetch('/api/moviereview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reviewData),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('리뷰가 성공적으로 저장되었습니다.');
+                    closePopup(); // 리뷰 저장 후 팝업 창 닫기
+                } else {
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        fetch('/api/umoviereview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reviewData),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('리뷰가 성공적으로 저장되었습니다.');
+                    closePopup(); // 리뷰 저장 후 팝업 창 닫기
+                } else {
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+
+
 </script>
 
 
