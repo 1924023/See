@@ -21,5 +21,11 @@ public class MovieReviewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(review); // HTTP 상태 코드 201과 함께 새로운 리뷰 반환
     }
 
-
+    // 특정 영화에 대한 리뷰 가져오기
+    @GetMapping
+    public ResponseEntity<List<MovieReview>> getReviewsForMovie(@RequestParam("movieName") String movieName) {
+        // 해당 영화에 대한 리뷰를 데이터베이스에서 가져오기
+        List<MovieReview> reviews = movieReviewRepository.findByMovieName(movieName);
+        return ResponseEntity.ok().body(reviews);
+    }
 }

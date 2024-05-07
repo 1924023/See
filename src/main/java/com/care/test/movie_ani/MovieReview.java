@@ -2,8 +2,6 @@ package com.care.test.movie_ani;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "moviereviews")
 public class MovieReview {
@@ -19,18 +17,15 @@ public class MovieReview {
     @Column(name = "reviewtext")
     private String reviewText;
 
-    @Column(name = "reviewdate")
-    private LocalDateTime reviewDate;
 
     // 생성자
     public MovieReview() {
     }
 
-    public MovieReview(String movieName, String loginid, String reviewText, LocalDateTime reviewDate) {
+    public MovieReview(String movieName, String loginid, String reviewText) {
         this.movieName = movieName;
         this.loginid = loginid;
         this.reviewText = reviewText;
-        this.reviewDate = reviewDate;
     }
 
     // Getter 및 Setter 메서드
@@ -66,11 +61,4 @@ public class MovieReview {
         this.reviewText = reviewText;
     }
 
-    public LocalDateTime getReviewDate() {
-        return reviewDate;
-    }
-
-    public void setReviewDate(LocalDateTime reviewDate) {
-        this.reviewDate = reviewDate;
-    }
 }
