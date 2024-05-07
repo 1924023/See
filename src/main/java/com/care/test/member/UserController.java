@@ -64,7 +64,7 @@ public class UserController {
         member.setPw(encodedPassword);
         //회원가입 정보 db에 저장
         userRepository.save(member);
-        return "login/login";
+        return "/home";
     }
 
     @GetMapping("/login")

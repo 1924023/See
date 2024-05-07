@@ -24,10 +24,14 @@ public class AdminController {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+    @GetMapping("/admin_index")
+    public String index_admin(){
+        return "admin_index";
+    }
     @GetMapping("/adjoin")
     public String join(){
         System.out.println("GetMapping /adjoin");
-        return "join/join_admin";
+        return "admin/register";
     }
     @PostMapping("/adjoin")
     public String registerAdmin(@ModelAttribute("admin_id") Admin admin, Model model) {
@@ -40,11 +44,11 @@ public class AdminController {
         admin.setAdminpw(encodedPassword);
         //회원가입 정보 db에 저장
         adminRepository.save(admin);
-        return "login/adlogin";
+        return "admin/login";
     }
     @GetMapping("/adlogin")
     public String login(){
-        return "login/login_admin";
+        return "admin/login";
     }
     @PostMapping("/adlogin")
     public String login(@ModelAttribute("login_data_admin")Admin admin, HttpServletRequest request){
@@ -60,7 +64,7 @@ public class AdminController {
                 HttpSession session = request.getSession(); //일치 시 session 생성
                 session.setAttribute("admin_login_id", foundId); //session에 일치한 id값 저장
                 System.out.println("get session");
-                return "admin_index";
+                return "redirect:/admin_index";
             } else {
                 return "redirect:login/login_fail";
             }
@@ -72,7 +76,7 @@ public class AdminController {
     public String getAllUsers(Model model) {
         //userRepository 가져와서 해당 데이터 출력
         model.addAttribute("members", userRepository.findAll());
-        return "admin/userList"; // user-myData.html 파일과 매핑됩니다.
+        return "admin/tables"; // user-myData.html 파일과 매핑됩니다.
     }
 
     @PostMapping("/addelete")

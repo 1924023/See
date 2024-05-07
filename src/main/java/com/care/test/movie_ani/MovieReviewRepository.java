@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MovieReviewRepository extends JpaRepository<MovieReview, Long> {
 
+    List<MovieReview> findByMovieName(String movieName);
 }
