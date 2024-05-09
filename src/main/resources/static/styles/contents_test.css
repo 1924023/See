@@ -1,39 +1,27 @@
 .category-list {
     display: flex;
-    flex-direction: column;
-    padding-left: 20px;
-    margin-top: -100px;
-    position: relative; /* 부모 요소로부터 상대적인 위치 설정 */
+    flex-wrap: wrap;
+    padding-left: 50px;
+    margin-top: 20px;
 }
 
-/* 스크롤바를 숨김 */
 .category::-webkit-scrollbar {
-    display: none;
+    width: 1px;
 }
 
-/* 스크롤 역할을 할 버튼 스타일 */
-.scroll-button {
-    position: absolute; /* 절대 위치 지정 */
-    top: 0; /* 위에서부터 정렬 */
-    right: 0; /* 오른쪽에서부터 정렬 */
-    width: 15px; /* 너비 조정 */
-    height: 100%; /* 높이를 부모 요소의 높이로 설정 */
-    background-color: transparent; /* 배경색 투명 */
-    border: none; /* 테두리 없음 */
-    cursor: pointer; /* 커서를 포인터로 변경 */
-    z-index: 1; /* 다른 요소 위에 표시되도록 설정 */
+.category::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,1);
+    border-radius: 10px;
+    border: 7px solid rgba(0,0,0,0.8);
 }
 
-/* 스크롤 역할을 할 버튼의 아이콘 스타일 */
-.scroll-button::before {
-    content: "\25B2"; /* 화살표 모양 아이콘 */
-    font-size: 20px; /* 아이콘 크기 */
-    color: white; /* 아이콘 색상 */
+.category::-webkit-scrollbar-track {
+    background-color: #141414;
 }
 
 .category {
     padding-bottom: 60px;
-    overflow: hidden; /* 내부 요소를 숨김 */
+    overflow: auto;
 }
 
 .category .title {
@@ -45,11 +33,16 @@
 
 .list {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .movie {
     padding: 5px;
+    /*flex: 0 0 calc(20% - 20px); !* 간격 제외한 크기로 설정 *!*/
+    /*max-width: calc(20% - 20px); !* 요소의 최대 너비를 20%로 제한 *!*/
+    /*box-sizing: border-box;*/
 }
 
 .movie:hover {
