@@ -8,7 +8,7 @@
     <!-- CSS 파일 링크 -->
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/header_test.css">
-    <link rel="stylesheet" href="styles/contents_test.css">
+    <link rel="stylesheet" href="styles/contents_test1.css">
     <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/popup.css">
     <link rel="stylesheet" href="styles/star.css">
@@ -36,35 +36,13 @@
     </div>
 
 
-    <div class="buttons">
-        <div class="info-button" onclick="actionButton()">
-            <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i>
-            #액션
-        </div>
-        <div class="info-button" onclick="romanceButton()">
-            <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i>
-            #로맨스
-        </div>
-        <div class="info-button" onclick="dramaButton()">
-            <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i>
-            #드라마
-        </div>
-        <div class="info-button" onclick="animateButton()">
-            <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i>
-            #애니메이션
-        </div>
-        <div class="info-button" onclick="thrillerButton()">
-            <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i>
-            #스릴러
-        </div>
-    </div>
-
-
-
     <!-- 카테고리 목록 영역 -->
     <div class="category-list">
         <div class="category">
-            <div class="list" id="recommended-movies-list">
+            <div class="category">
+                <div class="title">조회수 TOP10 시리즈</div>
+                <div class="list" id="recommended-movies-list">
+                </div>
             </div>
         </div>
     </div>
@@ -120,7 +98,7 @@
 <script>
 
     // 페이지 로드 시 호출되는 함수
-    window.addEventListener('load', displayMoviesAndVideos); // 애니
+    window.addEventListener('load', displayMoviesAndVideos); // 조회수 탑10
     window.addEventListener('load', getSessionIdAndUpdateSessionId); // 세션값
 
     function getSessionIdAndUpdateSessionId() { // 세션 id 추출
@@ -179,7 +157,7 @@
                 displayRecommendedMovies(responseData.movies);
             }
         };
-        xhttp.open("GET", "/allmovieinfoData", true);
+        xhttp.open("GET", "/recommendedTopMovies", true);
         xhttp.send();
     }
 
@@ -215,9 +193,8 @@
             movieElement.appendChild(movieImage);
             moviesContainer.appendChild(movieElement);
         });
-        console.log('영화 목록 가져오기 성공.');
+        console.log('TOP10 영화 목록 가져오기 성공.');
     }
-
 
     // 영화 썸네일 클릭 이벤트 처리
     document.addEventListener('click', function(event) {
