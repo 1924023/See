@@ -21,6 +21,8 @@ public class MovieListInfo {
 
     private String moviedata;
 
+    private int viewcount; // 조회수 필드 추가
+
 
     public Long getId() {
         return id;
@@ -48,7 +50,9 @@ public class MovieListInfo {
 
     public String getMoviedata() { return moviedata; }
 
-
+    public int getViewcount() {
+        return viewcount;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -76,4 +80,7 @@ public class MovieListInfo {
 
     public void setMoviedata(String moviedata) { this.moviedata = moviedata; }
 
+    public void setViewcount(int viewcount) {
+        this.viewcount = viewcount;
+    }
 }

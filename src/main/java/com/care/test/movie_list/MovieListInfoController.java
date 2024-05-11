@@ -3,10 +3,7 @@ package com.care.test.movie_list;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -15,14 +12,18 @@ public class MovieListInfoController {
     @Autowired
     private MovieListInfoRepository movieListInfoRepository;
 
+    @Autowired
+    private MovieListService movieListService; // MovieService 주입
+
     @GetMapping("/movie_list")
-    public String index_admin(){
+    public String movie_list() {
         return "movie_list";
     }
 
     @GetMapping("/allmovieinfoupload")
-    public String uploadMovie() { return "allmovieinfo_upload"; }
-
+    public String uploadMovie() {
+        return "allmovieinfo_upload";
+    }
 
     @PostMapping("/allmovieinfoupload")
     public String uploadMovie(@ModelAttribute MovieListInfo movieListInfo,
@@ -50,6 +51,18 @@ public class MovieListInfoController {
             System.out.println("영화 업로드에 실패했습니다: " + e.getMessage());
             // 실패 페이지로 리다이렉트
             return "redirect:/error";
+        }
+    }
+
+    @PostMapping("/api/increaseViewCount")
+    @ResponseBody
+    public String increaseViewCount(@RequestParam("movieName") String movieName) {
+        // 해당 영화의 조회수 증가
+        boolean success = movieListService.increaseViewCount(movieName);
+        if (success) {
+            return "조회수 증가 성공";
+        } else {
+            return "조회수 증가 실패";
         }
     }
 }

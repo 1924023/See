@@ -9,4 +9,7 @@ public interface MovieListInfoRepository extends JpaRepository<MovieListInfo, Lo
 
 
     List<MovieListInfo> findByMoviedata(String 액션);
+
+
+    List<MovieListInfo> findTop10ByOrderByViewcountDesc();
 }

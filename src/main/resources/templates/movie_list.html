@@ -233,8 +233,23 @@
 
             // 컨트롤러에 요청 보내기
             requestStreaming(movieName);
+            // 조회수 증가 요청 보내기
+            increaseViewCount(movieName);
         }
     });
+
+    // 영화 조회수 증가 요청 보내기
+    function increaseViewCount(movieName) {
+        fetch('/api/increaseViewCount?movieName=' + encodeURIComponent(movieName), {
+            method: 'POST',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error increasing view count');
+                }
+            })
+            .catch(error => console.error('Error increasing view count:', error));
+    }
 
 
 
@@ -342,10 +357,6 @@
         alert("검색창 이동")
     }
 
-    function goToNotifications() {
-        alert("알림창 이동")
-    }
-
     function goToProfile() {
         window.location.href = "login_success";
     }
@@ -437,10 +448,6 @@
         document.getElementById("reviewForm").style.display = "block";
         document.getElementById("reviewMovieName").value = movieName; // 영화 이름 입력란에 값 채워 넣기
 
-        // 리뷰 목록 가져오기 및 표시
-        // fetchReviews(movieName);
-        // fetchKReviews(movieName);
-        // fetchUReviews(movieName);
     }
 
     // 리뷰 저장 함수
@@ -456,42 +463,7 @@
             "reviewText": reviewText,
         };
 
-        // 리뷰를 서버로 보냄
-        fetch('/api/kmoviereview', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(reviewData),
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('리뷰가 성공적으로 저장되었습니다.');
-                    closePopup(); // 리뷰 저장 후 팝업 창 닫기
-                } else {
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
         fetch('/api/moviereview', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(reviewData),
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('리뷰가 성공적으로 저장되었습니다.');
-                    closePopup(); // 리뷰 저장 후 팝업 창 닫기
-                } else {
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        fetch('/api/umoviereview', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
