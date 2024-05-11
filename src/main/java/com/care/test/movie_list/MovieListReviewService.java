@@ -1,4 +1,4 @@
-package com.care.test.movie_ani;
+package com.care.test.movie_list;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MovieReviewService {
+public class MovieListReviewService {
 
-    private final MovieReviewRepository movieReviewRepository;
+    private final MovieListReviewRepository movieReviewRepository;
 
     @Autowired
-    public MovieReviewService(MovieReviewRepository movieReviewRepository) {
+    public MovieListReviewService(MovieListReviewRepository movieReviewRepository) {
         this.movieReviewRepository = movieReviewRepository;
     }
 
-    public List<MovieReview> getAllReviews() {
+    public List<MovieListReview> getAllReviews() {
         return movieReviewRepository.findAll();
     }
 

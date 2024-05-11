@@ -15,6 +15,11 @@ public class MovieListInfoController {
     @Autowired
     private MovieListInfoRepository movieListInfoRepository;
 
+    @GetMapping("/movie_list")
+    public String index_admin(){
+        return "movie_list";
+    }
+
     @GetMapping("/allmovieinfoupload")
     public String uploadMovie() { return "allmovieinfo_upload"; }
 

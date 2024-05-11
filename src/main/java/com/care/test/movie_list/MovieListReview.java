@@ -1,12 +1,10 @@
-package com.care.test.movie_usa;
+package com.care.test.movie_list;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "umoviereviews")
-public class UMovieReview {
+@Table(name = "moviereviews")
+public class MovieListReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,18 +17,15 @@ public class UMovieReview {
     @Column(name = "reviewtext")
     private String reviewText;
 
-    @Column(name = "reviewdate")
-    private LocalDateTime reviewDate;
 
     // 생성자
-    public UMovieReview() {
+    public MovieListReview() {
     }
 
-    public UMovieReview(String movieName, String loginid, String reviewText, LocalDateTime reviewDate) {
+    public MovieListReview(String movieName, String loginid, String reviewText) {
         this.movieName = movieName;
         this.loginid = loginid;
         this.reviewText = reviewText;
-        this.reviewDate = reviewDate;
     }
 
     // Getter 및 Setter 메서드
@@ -66,11 +61,4 @@ public class UMovieReview {
         this.reviewText = reviewText;
     }
 
-    public LocalDateTime getReviewDate() {
-        return reviewDate;
-    }
-
-    public void setReviewDate(LocalDateTime reviewDate) {
-        this.reviewDate = reviewDate;
-    }
 }
