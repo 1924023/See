@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="styles/footer.css">
     <title>See</title>
     <script src="https://kit.fontawesome.com/44abc8888a.js" crossorigin="anonymous"></script>
+    <!-- 포트원 결제 -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 
 
 
@@ -33,9 +39,9 @@
         </div>
         <div class="description">See 이용권<br>
             <div class="buttons">
-                <div class="play-button" onclick="goToPayment()">
+                <button id="payment" class="play-button">
                     월 \5,000원
-                </div>
+                </button>
             </div>
         </div>
     </div>
@@ -53,14 +59,11 @@
     </div>
 </footer>
 
+<script src="payment.js"></script>
 <script>
     function goToLogin() {
         window.location.href = "login";
     }
-    function goToPayment() {
-        window.location.href = "login";
-    }
-
 </script>
 
 </body>
