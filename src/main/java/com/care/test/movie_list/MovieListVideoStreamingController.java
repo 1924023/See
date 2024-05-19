@@ -150,6 +150,26 @@ public class MovieListVideoStreamingController {
         return movieData; // 스릴러 장르의 영화 정보 반환
     }
 
+    @GetMapping("/search")
+    public Map<String, List<Map<String, Object>>> getSearchMovies(@RequestParam String keyword) {
+        List<MovieListInfo> searchResult = movieListInfoRepository.findByMovienameContainingIgnoreCaseOrMovieactorContainingIgnoreCaseOrMoviedirectorContainingIgnoreCaseOrMoviegenreContainingIgnoreCase(keyword, keyword, keyword, keyword);
+
+        // 영화 정보를 Map으로 매핑하여 반환할 데이터 구성
+        List<Map<String, Object>> movieList = searchResult.stream()
+                .map(movie -> {
+                    Map<String, Object> movieMap = new HashMap<>();
+                    movieMap.put("moviename", movie.getMoviename()); // 영화 이름
+                    movieMap.put("thumbnail", movie.getMoviethumbnail()); // 썸네일 이미지
+                    return movieMap;
+                })
+                .collect(Collectors.toList());
+
+        Map<String, List<Map<String, Object>>> movieData = new HashMap<>();
+        movieData.put("movies", movieList);
+
+        return movieData; // 검색정보 반환
+    }
+
 
     // 영상을 스트리밍하는 엔드포인트
     @GetMapping("/allstreamingEndpoint")

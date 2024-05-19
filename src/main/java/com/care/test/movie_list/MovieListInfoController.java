@@ -19,6 +19,8 @@ public class MovieListInfoController {
     public String movie_list() {
         return "movie_list";
     }
+    @GetMapping("/movie_search")
+    public String movie_search() { return "movie_search"; }
     @GetMapping("/movie_recommend")
     public String movie_recommend() {
         return "movie_recommend";

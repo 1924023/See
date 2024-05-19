@@ -3,11 +3,18 @@ package com.care.test.movie_list;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class MovieListService {
 
     @Autowired
     private MovieListInfoRepository movieListInfoRepository;
+
+
 
     // 영화 조회수 증가 메서드
     public boolean increaseViewCount(String movieName) {
