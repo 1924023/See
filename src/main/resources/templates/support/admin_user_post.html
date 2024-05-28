@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User Post</title>
+    <style>
+        .data-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>User Post</h1>
+
+<div class="user-data-box">
+    <p>
+        <strong>제목:</strong> <span th:text="${admin_user_post.title}"></span>
+    </p>
+    <p>
+        <strong>카테고리:</strong> <span th:text="${admin_user_post.category}"></span>
+    </p>
+    <p>
+        <strong>문의 내용:</strong> <span th:text="${admin_user_post.content}"></span>
+    </p>
+    <p>
+        <strong>사용자 ID:</strong> <span th:text="${admin_user_post.userid}"></span>
+    </p>
+
+</div>
+<hr>
+<div class="admin-box">
+    <form action="/admin_user_post" method="post">
+        <input type="hidden" name="title" th:value="${admin_user_post.title}">
+        <input type="hidden" name="content" th:value="${admin_user_post.content}">
+        <input type="hidden" name="userid" th:value="${admin_user_post.userid}">
+
+        <p>
+            <label for="admincontent">문의 답변</label><br>
+            <textarea name="admincontent" id="admincontent" placeholder="문의 내용" rows="4"></textarea>
+        </p>
+        <p>
+            <button type="submit">문의 제출</button>
+        </p>
+    </form>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+<h1>User List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Userid</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Verify</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 사용자 목록을 표시하기 위해 Thymeleaf의 반복문 사용 -->
+    <tr th:each="supportList, index : ${admin_supportList}">
+        <!-- index 값을 표시 -->
+        <td th:text="${index.index + 1}"></td>
+        <!-- title 값이 클릭되면 해당 페이지로 이동하는 링크를 추가 -->
+        <td th:text="${supportList.userid}"></td>
+        <td th:text="${supportList.title}"></td>
+        <td th:text="${supportList.category}"></td>
+        <td>
+            <a th:if="${supportList.verify == '대기중'}" th:href="@{'/admin_user_post?userid=' + ${supportList.userid} + '&title=' + ${supportList.title} + '&content=' + ${supportList.content}}" th:text="${supportList.verify}"></a>
+            <a th:if="${supportList.verify == '답변완료'}" th:href="@{'/user_post'}" th:text="${supportList.verify}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

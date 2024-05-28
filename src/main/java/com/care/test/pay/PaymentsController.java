@@ -25,6 +25,7 @@ public class PaymentsController {
         // 세션에서 로그인 ID 가져오기
         HttpSession session = request.getSession();
         String loginId = (String) session.getAttribute("login_success_id");
+        System.out.println("session id : " + loginId);
 
         // 세션 ID를 JSON 형식으로 응답
         return "{\"session_id\": \"" + loginId + "\"}";
@@ -43,6 +44,7 @@ public class PaymentsController {
         // 세션에서 로그인 ID 가져오기
         HttpSession session = request.getSession();
         String loginId = (String) session.getAttribute("login_success_id");
+        payment.setTicketusername(loginId);
         System.out.println("로그인 ID: " + loginId); // 로그인id 확인
 
         // 데이터베이스에서 구독권 가격을 조회하여 결제된 가격과 비교

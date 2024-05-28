@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User Post</title>
+    <style>
+        .data-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>User Post</h1>
+
+<div class="data-box">
+    <p>
+        <strong>제목:</strong> <span th:text="${user_post.title}"></span>
+    </p>
+    <p>
+        <strong>카테고리:</strong> <span th:text="${user_post.category}"></span>
+    </p>
+    <p>
+        <strong>문의 내용:</strong> <span th:text="${user_post.content}"></span>
+    </p>
+    <p>
+        <strong>사용자 ID:</strong> <span th:text="${user_post.userid}"></span>
+    </p>
+    <p>
+        <strong>상태:</strong> <span th:text="${user_post.verify}"></span>
+    </p>
+</div>
+<hr>
+<div>
+    <p>
+        <strong>답변:</strong> <span th:text="${user_post.admincontent}"></span>
+    </p>
+</div>
+
+</body>
+
+</html>

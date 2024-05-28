@@ -1,6 +1,8 @@
 package com.care.test.admin;
 
 import com.care.test.member.UserRepository;
+import com.care.test.support.Support;
+import com.care.test.support.SupportRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import  org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -17,12 +22,17 @@ public class AdminController {
     private final AdminRepository adminRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final SupportRepository supportRepository;
 
     @Autowired
-    public AdminController(UserRepository userRepository, AdminRepository adminRepository, BCryptPasswordEncoder passwordEncoder) {
+    public AdminController(UserRepository userRepository,
+                           AdminRepository adminRepository,
+                           BCryptPasswordEncoder passwordEncoder,
+                           SupportRepository supportRepository) {
         this.adminRepository = adminRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.supportRepository = supportRepository;
     }
     @GetMapping("/admin_index")
     public String index_admin(){
@@ -106,5 +116,15 @@ public class AdminController {
         admin.setAdminpw(encodedPassword);
         adminRepository.save(admin);
         return "user/myData";
+    }
+
+    @GetMapping("chart")
+    public String chart(){return "admin/charts";}
+
+    @PostMapping("/verify_count")
+    @ResponseBody // 이 post는 템플릿 보여주는 코드가 아닌 데이터 출력 목적 컨트롤러라는 걸 의미
+    public String verity_count(){
+        List<Support> supportList = supportRepository.findAllByVerify("대기중");
+        return String.valueOf(supportList.size());
     }
 }

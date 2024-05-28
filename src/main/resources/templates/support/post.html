@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>See Admin - 문의 작성</title>
+</head>
+
+<body>
+<h1>문의 작성</h1>
+
+<form action="/post" method="post">
+
+    <p>
+        <label for="title">제목</label><br>
+        <input type="text" name="title" id="title" placeholder="제목">
+    </p>
+
+    <p>
+        <label for="category">카테고리</label><br>
+        <select name="category" id="category">
+            <option value="결제">결제</option>
+            <option value="계정">계정</option>
+            <option value="리뷰">리뷰</option>
+            <option value="영상">영상</option>
+        </select>
+    </p>
+
+    <p>
+        <label for="content">문의 내용</label><br>
+        <textarea name="content" id="content" placeholder="문의 내용" rows="4"></textarea>
+    </p>
+
+    <p>
+        <label for="userid">사용자 ID</label><br>
+        <input type="text" name="userid" id="userid" placeholder="사용자 ID" readonly>
+    </p>
+
+    <p>
+        <button type="submit">문의 제출</button>
+    </p>
+
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('/sessionid')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('userid').value = data.session_id;
+            })
+            .catch(error => console.error('Error fetching session ID:', error));
+    });
+</script>
+</body>
+
+</html>
