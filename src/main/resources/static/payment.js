@@ -1,11 +1,11 @@
 $(document).ready(function (){
-    $("#payment").click(function (){
         // 세션에서 로그인 ID 가져오기
         $.ajax({
             type: "GET",
             url: "/sessionid", // 세션 ID를 가져오는 엔드포인트
             success: function (response) {
                 var loginId = JSON.parse(response).session_id; // JSON 문자열을 파싱하여 세션 ID 추출
+                console.log("session_id(payment) : ", loginId);
                 // 서버로부터 현재 구독권의 가격을 가져와서 비교
                 $.ajax({
                     type: "GET",
@@ -30,7 +30,6 @@ $(document).ready(function (){
                 console.error("세션 ID 가져오기 실패:", error);
             }
         });
-    });
 });
 
 function payment(buyer_name) {
