@@ -1,35 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>See</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/contents.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/popup.css">
+    <link rel="stylesheet" href="styles/star.css">
+    <!-- Font Awesome 아이콘 라이브러리 -->
+    <script src="https://kit.fontawesome.com/44abc8888a.js" crossorigin="anonymous"></script>
 </head>
 <body>
-로그인 성공
-<div>
-    <h1><a th:href="|/${loginType}|">See</a></h1> <hr/>
-    <h2>로그인</h2>
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">id</label>
-        <input type="text" name="loginid" id="exampleFormControlInput1" placeholder="Your Name">
+<div class="home">
+    <img class="ad" src="assets/5.png">
+    <div class="overlay">
+        <header class="header">
+            <img class="logo" src="assets/logo.png">
+            <div class="nav">
+                <div class="nav-item" onclick="goToHome()">홈</div>
+                <div class="nav-item" onclick="goToMovie()">영화 시리즈 모음 </div>
+                <div class="nav-item" onclick="goToContents()">추천 콘텐츠</div>
+            </div>
+            <div class="nav">
+                <div class="nav-item" onclick="userSupport()">문의</div>
+                <div class="nav-item" onclick="viewMyData()">내 정보 보기</div>
+                <div class="nav-item" onclick="logoutUser()">로그아웃</div>
+                <div class="nav-item" onclick="deleteUser()">회원 탈퇴</div>
+            </div>
+        </header>
     </div>
-    <br>
-    <div class="mb-3">
-        <label for="password" class="form-label">password</label><br>
-        <input id="password" name="pw" type="password">
+
+    <div class="banner">
+        <div class="comment">See는</div>
     </div>
-    <br/>
-    <button type="submit">로그인</button>
-    <form action="delete" method="post">
-        <button type="submit">회원 탈퇴</button>
-    </form>
-    <form action="logout" method="post">
-        <button type="submit">로그아웃</button>
-    </form>
-    <form action="myData" method="post">
-        <button type="submit">내 정보 보기</button>
-    </form>
+
+
+
+
+
+
+
+
+
+
 </div>
+
+
+
+<footer>
+    <div class="info">
+        <span>See 통신판매업신고번호: 제 9999 전화번호: 9999-9999 (수신자 부담)</span> <br> <br>
+        <span>대표: 박정현, 조승연</span> <br> <br>
+        <span>이메일 주소: qkrwjdgus1441@naver.com</span> <br><br>
+        <span>주소: 대한민국</span> <br><br>
+        <span>사업자등록번호: 9999-9999-99</span> <br><br>
+    </div>
+</footer>
+
+<script>
+
+    async function sendRequest(url, method) {
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+            if (response.ok) {
+                console.log(`${url} 요청이 성공했습니다.`);
+                // 성공 시 추가 작업
+            } else {
+                console.error(`${url} 요청이 실패했습니다.`);
+                // 실패 시 추가 작업
+            }
+        } catch (error) {
+            console.error(`에러 발생: ${error}`);
+            // 에러 처리 추가 작업
+        }
+    }
+
+    function deleteUser() {
+        sendRequest('delete', 'POST');
+        window.location.href = "delete";
+    }
+
+    function logoutUser() {
+        sendRequest('logout', 'POST');
+        window.location.href = "logout";
+    }
+
+    function viewMyData() {
+        sendRequest('myData', 'POST');
+        window.location.href = "myData";
+    }
+
+    function userSupport() {
+        sendRequest('user_support_list', 'GET');
+        window.location.href = "user_support_list";
+    }
+
+
+
+    // 메뉴 클릭 시 동작 함수들
+    function goToHome() {
+        window.location.href = "index";
+    }
+
+    function goToMovie() {
+        window.location.href = "movie_list"
+    }
+
+    function goToContents() {
+        window.location.href = "movie_recommend"
+    }
+
+    function goToSearch() {
+        window.location.href = "movie_search"
+    }
+
+    function goToNotifications() {
+        alert("알림창 이동")
+    }
+
+    function goToProfile() {
+        window.location.href = "login_success";
+    }
+
+    // 재생 버튼 클릭 시 동작 함수
+    function playVideo() {
+        alert("영상재생");
+    }
+
+    // 영상 정보 버튼 클릭 시 동작 함수
+    function infoVideo() {
+        alert("영상 상세정보")
+    }
+
+    // 리뷰 작성 폼 열기 함수
+    function openReviewForm() {
+        var movieName = document.getElementById("movieName").textContent;
+        document.getElementById("reviewForm").style.display = "block";
+        document.getElementById("reviewMovieName").value = movieName; // 영화 이름 입력란에 값 채워 넣기
+    }
+
+    // 리뷰 저장 함수
+    function saveReview() {
+        var reviewText = document.getElementById("reviewText").value;
+        var movieName = document.getElementById("movieName").textContent; // 이미 가져온 영화 이름 사용
+
+        var loginId = "익명";
+
+        var reviewData = {
+            "movieName": movieName,
+            "loginId": loginId,
+            "reviewText": reviewText,
+        };
+
+        fetch('/api/moviereview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reviewData),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('리뷰가 성공적으로 저장되었습니다.');
+                    closePopup(); // 리뷰 저장 후 팝업 창 닫기
+                } else {
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+
+
+</script>
+
+
 </body>
 </html>

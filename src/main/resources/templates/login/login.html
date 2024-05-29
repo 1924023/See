@@ -1,82 +1,81 @@
 <!DOCTYPE html>
 <html lang="ko">
-<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
-    <title th:text="See"></title>
     <style>
         body {
-            background-color: black; /* 바탕을 검은색으로 설정 */
-            color: white; /* 기본 텍스트 색상을 흰색으로 설정 */
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7; /* 바탕을 밝은 회색으로 설정 */
+            color: #000000; /* 기본 텍스트 색상을 검정색으로 설정 */
+            margin: 0;
+            padding: 0;
         }
         .container {
-            text-align: center;
-            margin-top: 50px; /* 로고가 화면 상단에서 조금 아래에 위치하도록 조정 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* 로고와 폼을 세로로 정렬하기 위해 컨테이너의 방향을 세로로 설정합니다. */
         }
         .logo {
-            margin-bottom: 80px; /* 로고와 폼 사이에 간격을 조정 */
-        }
-        .logo img {
-            width: 150px; /* 로고 이미지의 너비를 조절합니다 */
-            height: auto; /* 높이를 자동으로 맞추어 이미지 비율을 유지합니다 */
+            margin-bottom: 20px; /* 로고와 폼 사이의 간격 조정 */
         }
         .form-box {
-            width: 320px; /* 전체 폼의 너비를 설정합니다 */
-            margin: 0 auto; /* 수평 가운데 정렬 */
-            padding: 20px;
-            background-color: white; /* 박스를 흰색으로 설정 */
-            border-radius: 10px;
-            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
+            width: 320px; /* 폼 상자의 너비를 설정합니다 */
+            background-color: #ffffff; /* 폼 배경을 흰색으로 설정합니다 */
+            padding: 40px; /* 안쪽 여백을 추가합니다 */
+            border-radius: 10px; /* 모서리를 둥글게 만듭니다 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과를 추가합니다 */
         }
-        .form-label {
-            display: block;
-            margin-bottom: 10px;
-            color: black; /* 라벨 텍스트 색상을 검은색으로 설정 */
+        .form-box h1 {
+            margin-bottom: 20px; /* 제목과 폼 사이의 간격을 설정합니다 */
+            text-align: center; /* 제목을 가운데 정렬합니다 */
+        }
+        .form-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center; /* 텍스트를 가운데 정렬합니다 */
         }
         .form-input {
-            width: calc(100% - 20px); /* 텍스트 입력란의 너비를 설정합니다 (패딩 포함) */
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
+            width: calc(100% - 20px); /* 텍스트 입력란의 너비를 설정합니다 */
+            padding: 10px; /* 안쪽 여백을 설정합니다 */
+            margin-bottom: 10px; /* 하단 여백을 설정합니다 */
+            border-radius: 5px; /* 테두리를 둥글게 만듭니다 */
+            border: 1px solid #ccc; /* 테두리를 설정합니다 */
+            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정합니다 */
         }
         .button {
-            width: calc(50% - 5px); /* 버튼의 너비를 설정합니다 (패딩 및 테두리는 포함되지 않음) */
-            padding: 10px 0;
-            background-color: #08025C;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px; /* 버튼 위에 간격 추가 */
+            width: 100%; /* 버튼의 너비를 설정합니다 */
+            padding: 10px 0; /* 안쪽 여백을 설정합니다 */
+            background-color: #007bff; /* 배경색을 파란색으로 설정합니다 */
+            color: #ffffff; /* 텍스트 색상을 흰색으로 설정합니다 */
+            border: none; /* 테두리를 없앱니다 */
+            border-radius: 5px; /* 테두리를 둥글게 만듭니다 */
+            cursor: pointer; /* 커서 모양을 포인터로 설정합니다 */
+            margin-top: 10px; /* 상단 여백을 설정합니다 */
         }
         .button:hover {
-            background-color: #08025C;
-        }
-        .button + .button {
-            margin-top: 10px; /* 버튼 아래에 간격 추가 */
+            background-color: #0056b3; /* 호버 상태일 때 배경색을 어두운 파란색으로 변경합니다 */
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="logo">
-        <img src="assets/logo.png"> <!-- 로고 이미지를 삽입합니다 -->
+        <img src="assets/logo2.png" alt="로고"> <!-- 로고 이미지를 추가합니다. -->
     </div>
     <div class="form-box">
+        <div class="form-title">로그인</div>
         <form action="" method="post">
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">ID</label>
                 <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">PASSWORD</label><br>
                 <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
             </div>
             <button type="submit" class="button">로그인</button>
-
         </form>
         <form action="../join" method="get">
             <button type="submit" class="button">회원 가입</button>

@@ -5,18 +5,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>User Post</title>
+    <title>문의 내용</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
         .data-box {
             border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .data-box p {
+            margin: 10px 0;
+        }
+        .data-box strong {
+            font-weight: bold;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 20px auto;
+        }
+        .answer {
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
 <body>
-<h1>User Post</h1>
+<h1>문의 내용</h1>
 
 <div class="data-box">
     <p>
@@ -36,7 +69,7 @@
     </p>
 </div>
 <hr>
-<div>
+<div class="answer">
     <p>
         <strong>답변:</strong> <span th:text="${user_post.admincontent}"></span>
     </p>

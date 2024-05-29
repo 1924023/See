@@ -6,43 +6,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>See Admin - 문의 작성</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* 부모 요소를 중앙으로 정렬 */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            width: 100%;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
-<h1>문의 작성</h1>
+<div class="container">
+    <h1>문의 작성</h1>
 
-<form action="/post" method="post">
+    <form action="/post" method="post">
 
-    <p>
-        <label for="title">제목</label><br>
-        <input type="text" name="title" id="title" placeholder="제목">
-    </p>
+        <div>
+            <input type="text" name="title" id="title" placeholder="제목">
+        </div>
 
-    <p>
-        <label for="category">카테고리</label><br>
-        <select name="category" id="category">
-            <option value="결제">결제</option>
-            <option value="계정">계정</option>
-            <option value="리뷰">리뷰</option>
-            <option value="영상">영상</option>
-        </select>
-    </p>
+        <div>
+            <select name="category" id="category">
+                <option value="결제 문의">결제</option>
+                <option value="계정 문의">계정</option>
+                <option value="리뷰 문의">리뷰</option>
+                <option value="영상 문의">영상</option>
+            </select>
+        </div>
 
-    <p>
-        <label for="content">문의 내용</label><br>
-        <textarea name="content" id="content" placeholder="문의 내용" rows="4"></textarea>
-    </p>
+        <div>
+            <textarea name="content" id="content" placeholder="문의 내용" rows="4"></textarea>
+        </div>
 
-    <p>
-        <label for="userid">사용자 ID</label><br>
-        <input type="text" name="userid" id="userid" placeholder="사용자 ID" readonly>
-    </p>
+        <div>
+            <input type="text" name="userid" id="userid" placeholder="사용자 ID" readonly>
+        </div>
 
-    <p>
-        <button type="submit">문의 제출</button>
-    </p>
+        <div>
+            <button type="submit">문의 제출</button>
+        </div>
 
-</form>
+    </form>
+</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

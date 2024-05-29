@@ -14,6 +14,39 @@
     <link rel="stylesheet" href="styles/star.css">
     <!-- Font Awesome 아이콘 라이브러리 -->
     <script src="https://kit.fontawesome.com/44abc8888a.js" crossorigin="anonymous"></script>
+    <style>
+        #searchContainer {
+            justify-content: center; /* 가운데 정렬 */
+            align-items: center; /* 수직 가운데 정렬 */
+            display: flex;
+            flex-grow: 1;
+            margin-right: 20px; /* 검색 입력과 프로필 이미지 사이 간격 */
+        }
+        #searchInput {
+            flex-grow: 1;
+            width: 90%; /* 가로 폭을 %로 설정 */
+            height: 20px; /* 세로 폭을 px로 설정 */
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            background-color: white; /* 배경색을 흰색으로 설정 */
+        }
+        #searchContainer button {
+            width: 40%; /* 가로 폭을 %로 설정 */
+            height: 40px; /* 세로 폭을 px로 설정 */
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: black; /* 배경색을 검은색으로 설정 */
+            color: white; /* 글자를 하얀색으로 설정 */
+            border: 1px solid white; /* 테두리를 하얀색으로 설정 */
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        #searchContainer button:hover {
+            background-color: #808080;
+        }
+    </style>
 </head>
 <body>
 <div class="home">
@@ -26,12 +59,11 @@
                 <div class="nav-item" onclick="goToMovie()">영화 시리즈 모음 </div>
                 <div class="nav-item" onclick="goToContents()">추천 콘텐츠</div>
             </div>
+            <div id="searchContainer">
+                <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+                <button onclick="searchMovies()">검색</button>
+            </div>
             <div class="menu">
-                <button onclick="goToSearch()">검색</button>
-                <div id="searchContainer">
-                    <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-                    <button onclick="searchMovies()">검색</button>
-                </div>
                 <img class="profile" src="assets/user.png" onclick="goToProfile()">
             </div>
         </header>
@@ -326,20 +358,11 @@
     }
 
     function goToContents() {
-        alert("신규컨텐츠로 이동")
-    }
-
-    function goToSearch() {
-        alert("검색창 이동")
+        window.location.href = "movie_recommend"
     }
 
     function goToProfile() {
         window.location.href = "login_success";
-    }
-
-    // 재생 버튼 클릭 시 동작 함수
-    function playVideo() {
-        alert("영상재생");
     }
 
     // 영상 정보 버튼 클릭 시 동작 함수

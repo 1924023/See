@@ -2,41 +2,44 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <style>
         body {
-            background-color: black; /* 배경을 검은색으로 설정 */
+            background-color: #f7f7f7; /* 바탕을 밝은 회색으로 설정 */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            color: white; /* 기본 텍스트 색상을 흰색으로 설정 */
+            color: #000000; /* 기본 텍스트 색상을 검정색으로 설정 */
         }
         .layout {
             display: flex;
-            flex-direction: column; /* 세로 방향으로 요소들을 배치 */
-            align-items: center; /* 가로 중앙 정렬 */
-            justify-content: center; /* 세로 중앙 정렬 */
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            position: relative;
+            flex-direction: column;
+        }
+        .logo {
+            margin-bottom: 40px;
         }
         .form-box {
             width: 320px; /* 전체 폼의 너비를 설정합니다 */
-            margin: 20px auto; /* 수직 가운데 정렬 */
             padding: 20px;
-            background-color: white; /* 박스를 흰색으로 설정 */
+            background-color: #ffffff; /* 박스를 흰색으로 설정 */
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
             box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
             text-align: center; /* 내부 요소를 가운데 정렬하기 위해 텍스트 정렬을 가운데로 설정 */
         }
         .form-label {
-            display: inline-block;
-            width: 100px; /* 레이블의 폭을 지정합니다 */
+            display: block;
             margin-bottom: 10px;
-            color: black; /* 라벨 텍스트 색상을 검은색으로 설정 */
-            text-align: center; /* 텍스트를 왼쪽으로 정렬합니다 */
+            color: #000000; /* 라벨 텍스트 색상을 검은색으로 설정 */
+            font-size: 24px; /* 글자 크기 */
+            font-weight: bold; /* 글자 굵기 */
         }
         .form-input {
-            width: calc(100% - 50px); /* 텍스트 입력란의 너비를 설정합니다 (레이블 폭 제외) */
+            width: calc(100% - 20px); /* 텍스트 입력란의 너비를 설정합니다 (레이블 폭 제외) */
             padding: 8px;
             margin-bottom: 15px;
             border-radius: 5px;
@@ -45,8 +48,8 @@
         }
         .form-button {
             width: 100%; /* 버튼의 너비를 폼 너비와 동일하게 설정 */
-            background-color: #08025C;
-            color: #fff;
+            background-color: #007bff; /* 버튼 배경색을 파란색으로 설정 */
+            color: #ffffff; /* 버튼 텍스트 색상을 흰색으로 설정 */
             border: none;
             border-radius: 5px;
             padding: 10px 20px;
@@ -54,55 +57,58 @@
             font-size: 16px;
         }
         .form-button:hover {
-            background-color: #05003a;
+            background-color: #0056b3;
         }
         .form-title {
             margin-bottom: 20px;
             font-size: 24px;
         }
-        .logo {
-            margin-bottom: 40px; /* 로고와 폼 사이에 간격을 조정 */
-        }
-        .logo img {
-            width: 150px; /* 로고 이미지의 너비를 조절합니다 */
-            height: auto; /* 높이를 자동으로 맞추어 이미지 비율을 유지합니다 */
+        .error-message {
+            display: none; /* 기본적으로 표시하지 않음 */
+            color: red; /* 빨간 글씨로 설정 */
+            font-size: 14px;
+            margin-top: -10px; /* 간격 조절 */
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 <div class="layout">
     <div class="logo">
-        <img src="assets/logo.png">
+        <img src="assets/logo2.png" alt="로고">
     </div>
     <div class="form-box">
         <div class="form-title">회원가입</div>
-        <form action="" method="post">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">ID</label>
-                <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label><br>
-                <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Name</label><br>
-                <input type="text" name="name" class="form-input" placeholder="이름">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Birth</label><br>
-                <input type="date" name="birth" class="form-input" placeholder="생년월일">
-            </div>
-            <div class="mb-3">
-                <label for="gender" class="form-label" placeholder="성별">Gender</label><br>
-                <select id="gender" name="gender" class="form-input" >
-                    <option value="1">Male</option>
-                    <option value="0">Female</option>
-                </select>
-            </div>
+        <form id="signup-form" action="" method="post">
+            <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
+            <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
+            <div id="password-error" class="error-message">비밀번호는 영어, 숫자, 특수문자의 조합으로 작성해야 합니다.</div>
+            <input type="text" name="name" class="form-input" placeholder="이름">
+            <input type="date" name="birth" class="form-input" placeholder="생년월일">
+            <select id="gender" name="gender" class="form-input">
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+            </select>
             <button type="submit" class="form-button">회원가입</button>
         </form>
     </div>
 </div>
+<script>
+    document.getElementById('signup-form').addEventListener('submit', function(event) {
+        const passwordInput = document.getElementById('password');
+        const passwordError = document.getElementById('password-error');
+        const passwordValue = passwordInput.value;
+
+        // 비밀번호 검증을 위한 정규식 (영어, 숫자, 특수문자 조합)
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+        if (!passwordRegex.test(passwordValue)) {
+            passwordError.style.display = 'block';
+            event.preventDefault(); // 폼 제출을 막음
+        } else {
+            passwordError.style.display = 'none';
+        }
+    });
+</script>
 </body>
 </html>
