@@ -2,6 +2,7 @@ package com.care.test.movie_list;
 import com.care.test.movie_list.MovieListVideo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 

@@ -40,7 +40,7 @@ public class SupportController {
         support.setVerify("대기중");
         support.setAdmincontent(null);
         supportRepository.save(support);
-        return "redirect:support/user_support_list";
+        return "redirect:/user_support_list";
     }
 
     @GetMapping("/user_support_list")// 사용자 개인의 문의 글 목록
@@ -71,7 +71,7 @@ public class SupportController {
         support.setVerify("답변완료");
         supportRepository.updateAdmincontent(support.getUserid(), support.getTitle(), support.getContent(), support.getAdmincontent(), support.getVerify());
         System.out.println(support);
-        return "support/support_list";
+        return "redirect:/support_list";
     }
 
 }

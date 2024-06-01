@@ -64,7 +64,7 @@ public class UserController {
         member.setPw(encodedPassword);
         //회원가입 정보 db에 저장
         userRepository.save(member);
-        return "/home";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -95,7 +95,7 @@ public class UserController {
                 HttpSession session = request.getSession(); //일치 시 session 생성
                 session.setAttribute("login_success_id", foundId); //session에 일치한 id값 저장
                 System.out.println("get session");
-                return "redirect:index";
+                return "redirect:/index";
             } else {
                 return "redirect:login/login_fail";
             }
@@ -132,7 +132,7 @@ public class UserController {
         userRepository.delete(foundId); //그 아이디 삭제
 
         session.invalidate(); //해당 세션 제거
-        return "home";
+        return "redirect:/home";
     }
 
     @RequestMapping("/myData")

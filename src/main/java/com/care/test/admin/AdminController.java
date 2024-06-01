@@ -1,11 +1,16 @@
 package com.care.test.admin;
 
 import com.care.test.member.UserRepository;
+import com.care.test.movie_list.MovieListInfo;
+import com.care.test.movie_list.MovieListInfoRepository;
+import com.care.test.pay.Payment;
+import com.care.test.pay.PaymentRepository;
 import com.care.test.support.Support;
 import com.care.test.support.SupportRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import  org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -23,16 +29,22 @@ public class AdminController {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final SupportRepository supportRepository;
+    private final PaymentRepository paymentRepository;
+    private final MovieListInfoRepository movieListInfoRepository;
 
     @Autowired
     public AdminController(UserRepository userRepository,
                            AdminRepository adminRepository,
                            BCryptPasswordEncoder passwordEncoder,
-                           SupportRepository supportRepository) {
+                           SupportRepository supportRepository,
+                           PaymentRepository paymentRepository,
+                           MovieListInfoRepository movieListInfoRepository) {
         this.adminRepository = adminRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.supportRepository = supportRepository;
+        this.paymentRepository = paymentRepository;
+        this.movieListInfoRepository = movieListInfoRepository;
     }
     @GetMapping("/admin_index")
     public String index_admin(){
@@ -126,5 +138,34 @@ public class AdminController {
     public String verity_count(){
         List<Support> supportList = supportRepository.findAllByVerify("대기중");
         return String.valueOf(supportList.size());
+    }
+
+    @PostMapping("/ticketamount")
+    @ResponseBody
+    public int ticketamount(){
+        List<Payment> payments = paymentRepository.findByAmount("5000");
+        return payments.size() * 5000;
+    }
+
+    @PostMapping("/ticketmonthdata")
+    @ResponseBody
+    public int ticketmonthdata(){
+        List<Payment> payments = paymentRepository.findByTicket_date_month(LocalDate.now().getMonthValue());
+        System.out.println(payments);
+        return payments.size() * 5000;
+    }
+
+    @PostMapping("/ticketyeardata")
+    @ResponseBody
+    public int ticketyeardata(){
+        List<Payment> payments = paymentRepository.findByTicket_date_year(LocalDate.now().getYear());
+        return payments.size() * 5000;
+    }
+
+    @PostMapping("/movieamount")
+    @ResponseBody
+    public int movieamount(){
+        List<MovieListInfo> movieListInfos = movieListInfoRepository.findAll();
+        return movieListInfos.size();
     }
 }
