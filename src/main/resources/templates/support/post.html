@@ -9,30 +9,36 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #000000; /* 배경색을 검은색으로 변경 */
+            color: #ffffff; /* 글자색을 흰색으로 변경 */
             margin: 0;
             padding: 0;
         }
+
         .container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #333333;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center; /* 부모 요소를 중앙으로 정렬 */
+            color: #ffffff; /* 글자색을 검은색으로 변경 */
         }
+
         h1 {
             text-align: center;
             margin-bottom: 30px;
         }
+
         form {
             width: 100%;
         }
+
         label {
             font-weight: bold;
         }
+
         input[type="text"],
         select,
         textarea {
@@ -43,16 +49,18 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
+
         button[type="submit"] {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #8B0000; /* 버튼의 배경색을 어두운 빨강(#8B0000)으로 변경 */
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
         button[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #800000; /* 호버 상태일 때 더 어두운 빨강(#800000)으로 변경 */
         }
     </style>
 </head>
@@ -92,7 +100,7 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         fetch('/sessionid')
             .then(response => response.json())
             .then(data => {

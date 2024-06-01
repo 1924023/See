@@ -8,12 +8,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            background-color: #000000; /* 배경을 검정색으로 설정 */
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: #ffffff; /* 기본 텍스트 색상을 흰색으로 설정 */
         }
 
         h1 {
@@ -26,28 +27,30 @@
         table {
             width: 80%;
             border-collapse: collapse;
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #333333; /* 테이블 배경색을 어두운 회색으로 설정 */
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* 그림자 효과 */
             margin-bottom: 20px;
+            color: #ffffff; /* 테이블 텍스트 색상을 흰색으로 설정 */
         }
 
         th, td {
             padding: 12px;
-            border-bottom: 1px solid #dddddd;
+            border-bottom: 1px solid #555555; /* 테이블 셀 경계선을 어두운 회색으로 설정 */
             text-align: left;
+            color: #ffffff; /* 셀 텍스트 색상을 흰색으로 설정 */
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #555555; /* 헤더 배경색을 어두운 회색으로 설정 */
             font-weight: bold;
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #444444; /* 짝수 행의 배경색을 어두운 회색으로 설정 */
         }
 
         a {
-            color: #007bff;
+            color: #ff6347; /* 링크 색상을 어두운 빨간색으로 설정 */
             text-decoration: none;
         }
 
@@ -72,7 +75,10 @@
         <tr th:each="member : ${members}">
             <td th:text="${member.loginid}"></td>
             <td th:text="${member.name}"></td>
-            <td th:text="${member.gender}"></td>
+            <td>
+                <a th:if="${member.gender}" th:text="${'남'}"></a>
+                <a th:if="${!member.gender}" th:text="${'여'}"></a>
+            </td>
             <td th:text="${member.birth}"></td>
         </tr>
         </tbody>

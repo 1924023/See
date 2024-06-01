@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7; /* 바탕을 밝은 회색으로 설정 */
-            color: #000000; /* 기본 텍스트 색상을 검정색으로 설정 */
+            background-color: #000000; /* 배경을 검정색으로 설정 */
+            color: #ffffff; /* 기본 텍스트 색상을 흰색으로 설정 */
             margin: 0;
             padding: 0;
         }
@@ -22,16 +22,20 @@
         .logo {
             margin-bottom: 20px; /* 로고와 폼 사이의 간격 조정 */
         }
+        .logo img {
+            max-width: 200px; /* 로고 이미지의 최대 너비를 설정합니다 */
+            height: auto; /* 이미지의 높이를 자동으로 조정합니다 */
+        }
         .form-box {
             width: 320px; /* 폼 상자의 너비를 설정합니다 */
-            background-color: #ffffff; /* 폼 배경을 흰색으로 설정합니다 */
+            background-color: #333333; /* 폼 배경을 어두운 회색으로 설정합니다 */
             padding: 40px; /* 안쪽 여백을 추가합니다 */
             border-radius: 10px; /* 모서리를 둥글게 만듭니다 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과를 추가합니다 */
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* 그림자 효과를 추가합니다 */
+            text-align: center; /* 텍스트를 가운데 정렬합니다 */
         }
         .form-box h1 {
             margin-bottom: 20px; /* 제목과 폼 사이의 간격을 설정합니다 */
-            text-align: center; /* 제목을 가운데 정렬합니다 */
         }
         .form-title {
             margin-bottom: 20px;
@@ -41,15 +45,21 @@
         .form-input {
             width: calc(100% - 20px); /* 텍스트 입력란의 너비를 설정합니다 */
             padding: 10px; /* 안쪽 여백을 설정합니다 */
-            margin-bottom: 10px; /* 하단 여백을 설정합니다 */
+            margin: 0 auto 10px; /* 상하 여백은 자동으로, 좌우 여백은 자동으로, 하단 여백을 10px로 설정합니다 */
+            display: block; /* 입력란을 블록 레벨 요소로 표시합니다 */
             border-radius: 5px; /* 테두리를 둥글게 만듭니다 */
-            border: 1px solid #ccc; /* 테두리를 설정합니다 */
+            border: 1px solid #555555; /* 테두리를 설정합니다 */
             box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정합니다 */
+            background-color: #000000; /* 입력란 배경색을 검정색으로 설정합니다 */
+            color: #ffffff; /* 입력란 텍스트 색상을 흰색으로 설정합니다 */
+        }
+        .form-input::placeholder {
+            color: #aaaaaa; /* 입력란의 placeholder 색상을 회색으로 설정합니다 */
         }
         .button {
             width: 100%; /* 버튼의 너비를 설정합니다 */
             padding: 10px 0; /* 안쪽 여백을 설정합니다 */
-            background-color: #007bff; /* 배경색을 파란색으로 설정합니다 */
+            background-color: #8B0000; /* 배경색을 어두운 빨간색으로 설정합니다 */
             color: #ffffff; /* 텍스트 색상을 흰색으로 설정합니다 */
             border: none; /* 테두리를 없앱니다 */
             border-radius: 5px; /* 테두리를 둥글게 만듭니다 */
@@ -57,24 +67,20 @@
             margin-top: 10px; /* 상단 여백을 설정합니다 */
         }
         .button:hover {
-            background-color: #0056b3; /* 호버 상태일 때 배경색을 어두운 파란색으로 변경합니다 */
+            background-color: #5B0000; /* 호버 상태일 때 배경색을 더 어두운 빨간색으로 변경합니다 */
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="logo">
-        <img src="assets/logo2.png" alt="로고"> <!-- 로고 이미지를 추가합니다. -->
+        <img src="assets/logo.png" alt="로고"> <!-- 로고 이미지를 추가합니다. -->
     </div>
     <div class="form-box">
         <div class="form-title">로그인</div>
         <form action="" method="post">
-            <div class="mb-3">
-                <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
-            </div>
-            <div class="mb-3">
-                <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
-            </div>
+            <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
+            <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
             <button type="submit" class="button">로그인</button>
         </form>
         <form action="../join" method="get">
