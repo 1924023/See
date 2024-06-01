@@ -39,6 +39,11 @@
     <!-- 카테고리 목록 영역 -->
     <div class="category-list">
         <div class="category">
+            <div class="title" id="user-title"></div>
+            <div class="list" id="watching-list"></div>
+        </div>
+
+        <div class="category">
             <div class="title">조회수 TOP10 시리즈</div>
             <div class="list" id="recommended-movies-list">
             </div>
@@ -48,6 +53,12 @@
         <div class="category">
             <div class="title">랜덤 영화 20개 추천 시리즈</div>
             <div class="list" id="recommended-movies-list1"></div>
+        </div>
+
+        <!-- 추천 시리즈 목록 -->
+        <div class="category">
+            <div class="title">시청 기반 컨텐츠</div>
+            <div class="list" id="recommended-movies-list2"></div>
         </div>
     </div>
 </div>
@@ -104,6 +115,7 @@
     // 페이지 로드 시 호출되는 함수
     window.addEventListener('load', displaytopMoviesAndVideos); // 조회수 탑10
     window.addEventListener('load', displayrandomMoviesAndVideos); // 랜덤 20개
+    window.addEventListener('load', displaypreventMoviesAndVideos);
     window.addEventListener('load', getSessionIdAndUpdateSessionId); // 세션값
 
     function getSessionIdAndUpdateSessionId() { // 세션 id 추출
@@ -180,6 +192,21 @@
         xhttp.send();
     }
 
+    function displaypreventMoviesAndVideos(){ //시청한 영화를 카테고리 영화 중 추천
+        // AJAX 요청
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseData = JSON.parse(this.responseText);
+
+                // 추천 시리즈 목록 표시
+                displayPreventRecommendedMovies(responseData.movies);
+            }
+        };
+        xhttp.open("GET", "/preventmovieinfoData", true);
+        xhttp.send();
+    }
+
     // 영화 목록을 화면에 표시하는 함수
     function displayRecommendedMovies(movies) {
         var moviesContainer = document.getElementById('recommended-movies-list');
@@ -246,6 +273,40 @@
             moviesContainer.appendChild(movieElement);
         });
         console.log('랜덤 영화 목록 가져오기 성공.');
+    }
+
+    function displayPreventRecommendedMovies(movies) {
+        var moviesContainer = document.getElementById('recommended-movies-list2');
+        moviesContainer.innerHTML = '';
+
+        movies.forEach((movieData, index) => {
+            var movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+            movieElement.dataset.moviename = movieData.moviename; // 썸네일에 moviename 데이터 설정
+
+            // Base64 이미지 데이터 디코딩
+            var decodedImageData = atob(movieData.thumbnail);
+            var decodedDataArray = new Uint8Array(decodedImageData.length);
+            for (var i = 0; i < decodedImageData.length; i++) {
+                decodedDataArray[i] = decodedImageData.charCodeAt(i);
+            }
+            var blob = new Blob([decodedDataArray], { type: 'image/jpeg' });
+
+            var movieImage = document.createElement('img');
+            movieImage.src = URL.createObjectURL(blob);
+            movieImage.classList.add('movie-image'); // 수정된 부분
+
+            // 영화 이름을 표시할 요소 추가
+            var movieNameElement = document.createElement('div');
+            movieNameElement.classList.add('moviename');
+            movieNameElement.textContent = movieData.moviename;
+
+
+
+            movieElement.appendChild(movieImage);
+            moviesContainer.appendChild(movieElement);
+        });
+        console.log('TOP10 영화 목록 가져오기 성공.');
     }
 
     // 영화 썸네일 클릭 이벤트 처리
@@ -381,7 +442,7 @@
     }
 
     function goToSearch() {
-        alert("검색창 이동")
+        window.location.href = "movie_search"
     }
 
     function goToProfile() {
