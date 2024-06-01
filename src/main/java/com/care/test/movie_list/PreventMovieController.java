@@ -25,21 +25,23 @@ public class PreventMovieController {
         this.preventMovieRepository = preventMovieRepository;
     }
 
-    @PostMapping("/preventmovie")
-    public ResponseEntity<String> savePreventMovieData(@ModelAttribute PreventMovie preventMovie) {
+    @PostMapping("/preventmoviesave")
+    public void savePreventMovieData(@ModelAttribute PreventMovie preventMovie) {
         // 클라이언트로부터 받은 데이터를 데이터베이스에 저장합니다.
-        PreventMovie savedMovie = preventMovieRepository.save(preventMovie);
-
-        if (savedMovie != null) {
-            // 저장에 성공한 경우 200 OK 응답을 반환합니다.
-            return ResponseEntity.ok("PreventMovie data successfully saved.");
-        } else {
-            // 저장에 실패한 경우 500 Internal Server Error 응답을 반환합니다.
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save PreventMovie data.");
+        PreventMovie preventMovie1 = preventMovieRepository.findByMoviename(preventMovie.getMoviename());
+        if(preventMovie1 == null){
+            preventMovieRepository.save(preventMovie);
+//            if (savedMovie != null) {
+//                // 저장에 성공한 경우 200 OK 응답을 반환합니다.
+//                return ResponseEntity.ok("PreventMovie data successfully saved.");
+//            } else {
+//                // 저장에 실패한 경우 500 Internal Server Error 응답을 반환합니다.
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save PreventMovie data.");
+//            }
         }
     }
 
-    @GetMapping("/preventmovie")
+    @GetMapping("/preventmovieget")
     public ResponseEntity<List<String>> getMovieNamesByUserId(@RequestParam("userid") String userid) {
         // 사용자 ID를 기반으로 prevent_movie 테이블에서 해당 사용자의 영화 제목들을 가져옵니다.
         List<PreventMovie> movies = preventMovieRepository.findAllByUserid(userid);
@@ -77,6 +79,32 @@ public class PreventMovieController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(matchedMovies); // 영화 정보 반환
+    }
+
+    @PostMapping("/saveLastWatchedTime")
+    public ResponseEntity<?> saveLastWatchedTime(@RequestParam String movieName,
+                                                 @RequestParam Double lastWatchedTime) {
+        System.out.println(movieName);
+        PreventMovie preventMovie  = preventMovieRepository.findByMoviename(movieName);
+        System.out.println(preventMovie.getMoviename());
+        System.out.println(preventMovie.getLastwatchedtime());
+        preventMovie.setLastwatchedtime(lastWatchedTime);
+        preventMovieRepository.updateLastwatchedtime(lastWatchedTime,movieName);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/getLastWatchedTime")
+    public ResponseEntity<Double> getLastWatchedTime(@RequestParam String movieName) {
+        PreventMovie preventMovie = preventMovieRepository.findByMoviename(movieName);
+        if (preventMovie != null) {
+            System.out.println("최근 시청한 시간 " + preventMovie.getLastwatchedtime());
+            double lastWatchedTime = preventMovie.getLastwatchedtime();
+            // 마지막 시청 시간이 있는 경우 해당 시간 반환
+            return ResponseEntity.ok(lastWatchedTime);
+        } else {
+            // 마지막 시청 시간이 없는 경우 기본값 0을 반환
+            return ResponseEntity.ok(0.0);
+        }
     }
 
 }
