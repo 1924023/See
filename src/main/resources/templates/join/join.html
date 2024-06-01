@@ -89,15 +89,29 @@
     <div class="form-box">
         <div class="form-title">회원가입</div>
         <form id="signup-form" action="" method="post">
-            <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
-            <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
-            <div id="password-error" class="error-message">비밀번호는 영어, 숫자, 특수문자의 조합으로 작성해야 합니다.</div>
-            <input type="text" name="name" class="form-input" placeholder="이름">
-            <input type="date" name="birth" class="form-input" placeholder="생년월일">
-            <select id="gender" name="gender" class="form-input">
-                <option value="1">Male</option>
-                <option value="0">Female</option>
-            </select>
+            <div class="mb-3">
+                <input type="text" name="loginid" id="exampleFormControlInput1" class="form-input" placeholder="아이디">
+            </div>
+            <div class="mb-3">
+                <input id="password" name="pw" type="password" class="form-input" placeholder="비밀번호">
+                <div id="password-error" class="error-message">비밀번호는 영어, 숫자, 특수문자의 조합으로 작성해야 합니다.</div>
+            </div>
+            <div class="mb-3">
+                <input id="passwordcheck" name="pwcheck" type="password" class="form-input" placeholder="비밀번호 확인">
+                <div id="password-error2" class="error-message2">비밀번호가 일치하지 않습니다.</div>
+            </div>
+            <div class="mb-3">
+                <input type="text" name="name" class="form-input" placeholder="이름">
+            </div>
+            <div class="mb-3">
+                <input type="date" name="birth" class="form-input" placeholder="생년월일">
+            </div>
+            <div class="mb-3">
+                <select id="gender" name="gender" class="form-input" >
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </div>
             <button type="submit" class="form-button">회원가입</button>
         </form>
     </div>
