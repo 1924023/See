@@ -8,7 +8,7 @@
     <!-- CSS 파일 링크 -->
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/header.css">
-    <link rel="stylesheet" href="styles/contents.css">
+    <link rel="stylesheet" href="styles/contents_test2.css">
     <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/popup.css">
     <link rel="stylesheet" href="styles/star.css">
@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="home">
-    <img class="ad" src="assets/5.png">
+    <img class="ad" src="assets/4.png">
     <div class="overlay">
         <header class="header">
             <img class="logo" src="assets/logo.png">
@@ -27,16 +27,28 @@
                 <div class="nav-item" onclick="goToContents()">추천 콘텐츠</div>
             </div>
             <div class="nav">
-                <div class="nav-item" onclick="userSupport()">문의</div>
-                <div class="nav-item" onclick="viewMyData()">내 정보 보기</div>
                 <div class="nav-item" onclick="logoutUser()">로그아웃</div>
                 <div class="nav-item" onclick="deleteUser()">회원 탈퇴</div>
             </div>
         </header>
     </div>
 
-    <div class="banner">
-        <div class="comment">See는</div>
+    <div class="category-list">
+        <div class="category">
+            <div class="list">
+                <div class="movie" onclick="viewMyData()">
+                    <img src="assets/user1.png">
+                </div>
+                <div class="movie" onclick="userSupport()">
+                    <img src="assets/user2.png">
+                </div>
+                <div class="movie">
+                    <img src="assets/user3.png">
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
 
