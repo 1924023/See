@@ -251,7 +251,7 @@
                     }
                 }
             };
-            xhr.open("GET", "/preventmovie?userid=" + encodeURIComponent(userid), true);
+            xhr.open("GET", "/preventmovieget?userid=" + encodeURIComponent(userid), true);
             xhr.send();
         });
     }
@@ -289,29 +289,29 @@
             console.log("얻은 세션 ID:", sessionId);
             var userId = sessionId; // 세션 ID를 userId에 할당합니다.
             var movieName = document.getElementById("movieName").textContent;
-            var url = "/preventmovie";
+            var url = "/preventmoviesave";
             var params = "userid=" + encodeURIComponent(userId) + "&moviename=" + encodeURIComponent(movieName);
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 폼 형식으로 전송
 
-            // 요청이 성공했을 때의 처리
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    console.log("Movie data successfully sent to the server.");
-                    // 추가적인 성공 처리를 여기에 작성할 수 있습니다.
-                } else {
-                    console.error("Error sending movie data to the server. Status: " + xhr.status);
-                    // 요청이 실패한 경우에 대한 처리를 여기에 작성할 수 있습니다.
-                }
-            };
-
-            // 요청이 실패했을 때의 처리
-            xhr.onerror = function() {
-                console.error("Error sending movie data to the server. Network error.");
-                // 네트워크 오류 등으로 요청이 실패한 경우에 대한 처리를 여기에 작성할 수 있습니다.
-            };
+            // // 요청이 성공했을 때의 처리 지우지마셈 !!!!!!!!!!!!!!!!!!!!!!!!!!!1
+            // xhr.onload = function() {
+            //     if (xhr.status == 200) {
+            //         console.log("Movie data successfully sent to the server.");
+            //         // 추가적인 성공 처리를 여기에 작성할 수 있습니다.
+            //     } else {
+            //         console.error("Error sending movie data to the server. Status: " + xhr.status);
+            //         // 요청이 실패한 경우에 대한 처리를 여기에 작성할 수 있습니다.
+            //     }
+            // };
+            //
+            // // 요청이 실패했을 때의 처리
+            // xhr.onerror = function() {
+            //     console.error("Error sending movie data to the server. Network error.");
+            //     // 네트워크 오류 등으로 요청이 실패한 경우에 대한 처리를 여기에 작성할 수 있습니다.
+            // };
 
             // 데이터를 보냅니다.
             xhr.send(params);
@@ -501,8 +501,32 @@
     });
 
     // 영상 스트리밍 요청 및 클라이언트 측의 시간 업데이트 함수 수정
-    function requestStreaming(movieName) { // 애니
+    // function requestStreaming(movieName) {
+    //     var videoPlayer = document.getElementById('popupVideo');
+    //     // 마지막 시청 시간을 로드하여 요청 URL에 추가
+    //     fetch('/getLastWatchedTime?movieName=' + encodeURIComponent(movieName))
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data && data.lastWatchedTime) {
+    //                 lastWatchedTime = data.lastWatchedTime;
+    //             }
+    //             videoPlayer.src = '/allstreamingEndpoint?movieName=' + encodeURIComponent(movieName) +
+    //                 '&currentTime=' + encodeURIComponent(lastWatchedTime);
+    //             openPopup(movieName);
+    //         });
+    // }
+    function requestStreaming(movieName) { // 액션
         var videoPlayer = document.getElementById('popupVideo');
+        // 서버에 마지막으로 시청된 시간을 요청합니다.
+        fetch('/getLastWatchedTime?movieName=' + encodeURIComponent(movieName))
+            .then(response => response.json())
+            .then(data => {
+                // 서버로부터 받은 데이터를 통해 currentTime을 설정합니다.
+                videoPlayer.currentTime = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         videoPlayer.src = '/allstreamingEndpoint?movieName=' + encodeURIComponent(movieName);
         openPopup(movieName);
     }
@@ -622,19 +646,30 @@
     }
 
 
+    var lastWatchedTime = 0;
 
     // 팝업 닫기 함수
-    function closePopup() { // 팝업 닫을시 영상 중지
+    function closePopup(movieName) { // 팝업 닫을시 영상 중지
         var popup = document.getElementById('videoPopup');
         var videoPlayer = document.getElementById('popupVideo');
 
         // 동영상 재생 중지
         videoPlayer.pause();
 
+        // 마지막 시청 시간 저장
+        saveLastWatchedTime('마다가스카', videoPlayer.currentTime); //movieName 데이터 넣어야함
+
         // 팝업 닫기
         popup.style.display = 'none'; // 수정된 부분
     }
 
+    function saveLastWatchedTime(movieName, lastWatchedTime) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/saveLastWatchedTime", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        var params = "movieName=" + encodeURIComponent(movieName) + "&lastWatchedTime=" + encodeURIComponent(lastWatchedTime);
+        xhr.send(params);
+    }
 
     // 메뉴 클릭 시 동작 함수들
     function goToHome() {
@@ -647,6 +682,9 @@
 
     function goToContents() {
         window.location.href = "movie_recommend"
+    }
+    function goToWish() {
+        alert("찜목록으로 이동")
     }
 
     function goToSearch() {
