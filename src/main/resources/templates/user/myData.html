@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* 배경을 검정색으로 설정 */
+            color: #ffffff; /* 기본 텍스트 색상을 흰색으로 설정 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 10px 0; /* 테이블과의 간격을 조절합니다 */
+            background-color: #333333; /* 테이블 배경색을 어두운 회색으로 설정 */
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* 그림자 효과 */
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #555555; /* 테이블 셀 경계선을 어두운 회색으로 설정 */
+            text-align: left;
+            color: #ffffff; /* 셀 텍스트 색상을 흰색으로 설정 */
+        }
+
+        th {
+            background-color: #555555; /* 헤더 배경색을 어두운 회색으로 설정 */
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #444444; /* 짝수 행의 배경색을 어두운 회색으로 설정 */
+        }
+
+        a {
+            color: #ff6347; /* 링크 색상을 어두운 빨간색으로 설정 */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #ffffff; /* 버튼 텍스트 색상을 흰색으로 설정 */
+            background-color: #8B0000; /* 버튼 배경색을 어두운 빨간색으로 설정 */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .contact-button:hover {
+            background-color: #660000; /* 버튼 호버 배경색을 더 어두운 빨간색으로 설정 */
+        }
+
+        .container {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .previous-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #ffffff; /* 버튼 텍스트 색상을 흰색으로 설정 */
+            background-color: transparent; /* 버튼 배경색을 투명하게 설정 */
+            border: 2px solid #ffffff; /* 버튼 테두리를 하얀색으로 설정 */
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px 10px; /* 버튼 간격 조절 */
+        }
+    </style>
+</head>
+<body>
+<h1>이용자 개인정보</h1>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>성별</th>
+            <th>생년월일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.loginid}"></td>
+            <td th:text="${member.name}"></td>
+            <td>
+                <a th:if="${member.gender}" th:text="${'남'}"></a>
+                <a th:if="${!member.gender}" th:text="${'여'}"></a>
+            </td>
+            <td th:text="${member.birth}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="button-group">
+        <button class="contact-button" onclick="location.href='/update'">수정하기</button>
+        <button class="previous-button" onclick="location.href='/login_success'">마이 페이지</button>
+    </div>
+</div>
+</body>
+</html>

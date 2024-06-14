@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+<h1>User List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>PW</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 사용자 목록을 표시하기 위해 Thymeleaf의 반복문 사용 -->
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.pw}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

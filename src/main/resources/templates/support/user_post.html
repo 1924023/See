@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>문의 내용</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333333; /* 배경색을 어두운 회색으로 설정 */
+            color: #ffffff; /* 텍스트 색상을 흰색으로 설정 */
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .data-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            background-color: #444444; /* 데이터 박스 배경색을 어두운 회색으로 설정 */
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* 그림자 효과 수정 */
+        }
+        .data-box p {
+            margin: 10px 0;
+        }
+        .data-box strong {
+            font-weight: bold;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 20px auto;
+        }
+        .answer {
+            padding: 20px;
+            background-color: #555555; /* 답변 박스 배경색을 어두운 회색으로 설정 */
+            border-radius: 5px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* 그림자 효과 수정 */
+        }
+    </style>
+</head>
+
+<body>
+<h1>문의 내용</h1>
+
+<div class="data-box">
+    <p>
+        <strong>제목:</strong> <span th:text="${user_post.title}"></span>
+    </p>
+    <p>
+        <strong>카테고리:</strong> <span th:text="${user_post.category}"></span>
+    </p>
+    <p>
+        <strong>문의 내용:</strong> <span th:text="${user_post.content}"></span>
+    </p>
+    <p>
+        <strong>사용자 ID:</strong> <span th:text="${user_post.userid}"></span>
+    </p>
+    <p>
+        <strong>상태:</strong> <span th:text="${user_post.verify}"></span>
+    </p>
+</div>
+<hr>
+<div class="answer">
+    <p>
+        <strong>답변:</strong> <span th:text="${user_post.admincontent}"></span>
+    </p>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>See Admin - 문의 작성</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* 배경색을 검은색으로 변경 */
+            color: #ffffff; /* 글자색을 흰색으로 변경 */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* 부모 요소를 중앙으로 정렬 */
+            color: #ffffff; /* 글자색을 검은색으로 변경 */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #8B0000; /* 버튼의 배경색을 어두운 빨강(#8B0000)으로 변경 */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #800000; /* 호버 상태일 때 더 어두운 빨강(#800000)으로 변경 */
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>문의 작성</h1>
+
+    <form action="/post" method="post">
+
+        <div>
+            <input type="text" name="title" id="title" placeholder="제목">
+        </div>
+
+        <div>
+            <select name="category" id="category">
+                <option value="결제 문의">결제</option>
+                <option value="계정 문의">계정</option>
+                <option value="리뷰 문의">리뷰</option>
+                <option value="영상 문의">영상</option>
+            </select>
+        </div>
+
+        <div>
+            <textarea name="content" id="content" placeholder="문의 내용" rows="4"></textarea>
+        </div>
+
+        <div>
+            <input type="text" name="userid" id="userid" placeholder="사용자 ID" readonly>
+        </div>
+
+        <div>
+            <button type="submit">문의 제출</button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/sessionid')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('userid').value = data.session_id;
+            })
+            .catch(error => console.error('Error fetching session ID:', error));
+    });
+</script>
+</body>
+
+</html>

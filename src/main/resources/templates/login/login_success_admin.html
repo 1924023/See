@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+로그인 성공
+<div>
+    <h1><a th:href="|/${loginType}|">See</a></h1> <hr/>
+    <h2>로그인</h2>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">id</label>
+        <input type="text" name="adminid" id="exampleFormControlInput1" placeholder="Your Name">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label for="password" class="form-label">password</label><br>
+        <input id="password" name="adminpw" type="password">
+    </div>
+    <br/>
+    <button type="submit">로그인</button>
+    <form action="addelete" method="post">
+        <button type="submit">회원 탈퇴</button>
+    </form>
+    <form action="logout" method="post">
+        <button type="submit">로그아웃</button>
+    </form>
+    <form action="userlist" method="get">
+        <button type="submit">유저 정보 보기</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #dddddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>이용자 문의 내역</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Userid</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Verify</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 사용자 목록을 표시하기 위해 Thymeleaf의 반복문 사용 -->
+    <tr th:each="supportList, index : ${admin_supportList}">
+        <!-- index 값을 표시 -->
+        <td th:text="${index.index + 1}"></td>
+        <!-- title 값이 클릭되면 해당 페이지로 이동하는 링크를 추가 -->
+        <td><a th:href="@{'/admin_user_post?userid=' + ${supportList.userid} + '&title=' + ${supportList.title} + '&content=' + ${supportList.content}}" th:text="${supportList.userid}"></a></td>
+        <td th:text="${supportList.title}"></td>
+        <td th:text="${supportList.category}"></td>
+        <td>
+            <a th:if="${supportList.verify == '대기중'}" th:href="@{'/admin_user_post?userid=' + ${supportList.userid} + '&title=' + ${supportList.title} + '&content=' + ${supportList.content}}" th:text="${supportList.verify}"></a>
+            <a th:if="${supportList.verify == '답변완료'}" th:href="@{'/user_post?title=' + ${supportList.title}}" th:text="${supportList.verify}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

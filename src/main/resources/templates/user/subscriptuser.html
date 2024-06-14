@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Subscription Info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* 배경을 검정색으로 설정 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff; /* 기본 텍스트 색상을 흰색으로 설정 */
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            background-color: #333333; /* 테이블 배경색을 어두운 회색으로 설정 */
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* 그림자 효과 */
+            margin-bottom: 20px;
+            color: #ffffff; /* 테이블 텍스트 색상을 흰색으로 설정 */
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #555555; /* 테이블 셀 경계선을 어두운 회색으로 설정 */
+            text-align: left;
+            color: #ffffff; /* 셀 텍스트 색상을 흰색으로 설정 */
+        }
+
+        th {
+            background-color: #555555; /* 헤더 배경색을 어두운 회색으로 설정 */
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #444444; /* 짝수 행의 배경색을 어두운 회색으로 설정 */
+        }
+
+        a {
+            color: #ff6347; /* 링크 색상을 어두운 빨간색으로 설정 */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .cancel-button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .cancel-button {
+            padding: 10px 20px;
+            background-color: #8B0000; /* 취소 버튼 배경색을 빨간색으로 설정 */
+            color: #ffffff; /* 취소 버튼 텍스트 색상을 흰색으로 설정 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-button:hover {
+            background-color: #5B0000; /* 마우스 호버 시 배경색 변경 */
+        }
+
+        .previous-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #ffffff; /* 버튼 텍스트 색상을 흰색으로 설정 */
+            background-color: transparent; /* 버튼 배경색을 투명하게 설정 */
+            border: 2px solid #ffffff; /* 버튼 테두리를 하얀색으로 설정 */
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>사용자의 구독 정보</h1>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>아이디</th>
+            <th>구독권명</th>
+            <th>구독날짜</th>
+            <th>구매금액</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subscriptuser_data : ${subscriptuser_data}">
+            <td th:text="${subscriptuser_data.ticketusername}"></td>
+            <td th:text="${subscriptuser_data.ticket_name}"></td>
+            <td th:text="${subscriptuser_data.ticket_date}"></td>
+            <td th:text="${subscriptuser_data.amount}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="cancel-button-container">
+        <button class="cancel-button" onclick="cancelSubscription()">구독 취소</button>
+        <button class="previous-button" onclick="location.href='/login_success'">마이 페이지</button>
+    </div>
+</div>
+
+<script>
+    function cancelSubscription() {
+        alert("구독권 취소가 완료되었습니다. " +
+            "해당 구독 기간동안은 영상을 시청하실 수 있습니다.")
+    }
+</script>
+</body>
+</html>

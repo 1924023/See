@@ -1,0 +1,54 @@
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 50%; /* 화면의 가로 중앙에 위치 */
+    top: 50%; /* 화면의 세로 중앙에 위치 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    width: 60%;
+    height: 80%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* 약간의 투명도 추가 */
+    color: white;
+    border-radius: 20px; /* 모서리를 10px 둥글게 설정 */
+}
+
+.popup-content {
+    margin: 0; /* 모든 여백을 제거하여 왼쪽 상단에 딱 붙어 위치 */
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0); /* 배경색과 투명도 조정 */
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right; /* 오른쪽으로 띄우기 */
+    margin: 10px 10px 0 0; /* 오른쪽 상단에 위치시키기 */
+    font-size: 28px;
+    font-weight: bold;
+    z-index: 2; /* 우선순위를 높임 */
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.fullScreenButton {
+    background-color: white; /* 남색 배경 */
+    color: black; /* 흰 글씨 */
+    padding: 15px 25px; /* 내부 여백 */
+    border: none; /* 테두리 없음 */
+    border-radius: 5px; /* 둥근 테두리 */
+    cursor: pointer; /* 커서 모양 */
+    font-size: 18px; /* 글씨 크기 조정 */
+}
+
+/* 버튼 호버 효과 */
+.fullScreenButton:hover {
+    background-color: #c1c8cb; /* 호버 시 진한 남색으로 변경 */
+}

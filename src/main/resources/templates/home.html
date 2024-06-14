@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>See</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/header_home.css">
+    <link rel="stylesheet" href="styles/contents.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <title>See</title>
+    <script src="https://kit.fontawesome.com/44abc8888a.js" crossorigin="anonymous"></script>
+    <!-- 포트원 결제 -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+</head>
+<body>
+<div class="home">
+    <img class="ad" src="assets/movie_intro.png">
+    <div class="menu">
+        <header class="header">
+            <div class="play-button" id="loginButton" onclick="goToLogin()">
+                로그인
+            </div>
+        </header>
+    </div>
+
+    <div class="banner">
+        <img class="ad-title" src="assets/logo.png">
+        <div class="comment">
+            이 모든 이야기가 여기에<br>
+            지금 스트리밍 중
+        </div>
+        <div class="description">See 이용권<br>
+            <div class="buttons">
+                <button id="payment" class="play-button">
+                    월 5,000원
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="info">
+        <span>See 통신판매업신고번호: 제 9999 전화번호: 9999-9999 (수신자 부담)</span> <br> <br>
+        <span>대표: 박정현, 조승연</span> <br> <br>
+        <span>이메일 주소: qkrwjdgus1441@naver.com</span> <br><br>
+        <span>주소: 대한민국</span> <br><br>
+        <span>사업자등록번호: 9999-9999-99</span> <br><br>
+    </div>
+</footer>
+
+<script>
+    function goToLogin() {
+        window.location.href = "login";
+    }
+
+    $(document).ready(function (){
+        // 로그인 상태를 확인하고 로그인 버튼을 숨김
+        checkLoginStatus();
+
+        $("#payment").click(function (){
+            handlePaymentButtonClick();
+        });
+    });
+
+    function checkLoginStatus() {
+        $.ajax({
+            url: '/check-login',
+            type: 'GET',
+            success: function(response) {
+                if (response.isLoggedIn) {
+                    $("#loginButton").hide();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Failed to check login status:", status, error);
+            }
+        });
+    }
+
+    // "월 5,000원" 버튼을 클릭했을 때 실행되는 함수
+    function handlePaymentButtonClick() {
+        // 서버로부터 세션 ID를 가져오기 위한 AJAX 요청 보내기
+        $.ajax({
+            url: '/sessionid', // 세션 ID를 가져올 엔드포인트 URL
+            type: 'GET',
+            success: function(response) {
+                // 세션 ID를 가져오는 데 성공한 경우, 반환된 세션 ID를 사용하여 후속 동작을 수행합니다.
+                var sessionId = JSON.parse(response).session_id;
+                console.log(sessionId);
+                // 세션 ID가 존재하는지 확인
+                if (sessionId != "null") {
+                    var script = document.createElement('script');
+                    script.src = 'payment.js';
+                    document.head.appendChild(script);
+                } else {
+                    alert("로그인 또는 회원가입이 필요합니다.");
+                }
+            },
+            error: function(xhr, status, error) {
+                // 세션 ID를 가져오는 데 실패한 경우에 대한 처리를 여기에 추가합니다.
+                console.error("Failed to fetch session ID:", status, error);
+                // 실패한 경우 알림 등을 사용자에게 표시할 수 있습니다.
+            }
+        });
+    }
+</script>
+</body>
+</html>

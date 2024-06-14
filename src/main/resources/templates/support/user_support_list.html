@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객센터</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* 배경을 검정색으로 설정 */
+            color: #ffffff; /* 기본 텍스트 색상을 흰색으로 설정 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px; /* 여기를 조정하여 간격을 조절합니다 */
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 10px 0; /* 테이블과의 간격을 조절합니다 */
+            background-color: #333333; /* 테이블 배경색을 어두운 회색으로 설정 */
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* 그림자 효과 */
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #555555; /* 테이블 셀 경계선을 어두운 회색으로 설정 */
+            text-align: left;
+            color: #ffffff; /* 셀 텍스트 색상을 흰색으로 설정 */
+        }
+
+        th {
+            background-color: #555555; /* 헤더 배경색을 어두운 회색으로 설정 */
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #444444; /* 짝수 행의 배경색을 어두운 회색으로 설정 */
+        }
+
+        a {
+            color: #ff6347; /* 링크 색상을 어두운 빨간색으로 설정 */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #ffffff; /* 버튼 텍스트 색상을 흰색으로 설정 */
+            background-color: #8B0000; /* 버튼 배경색을 어두운 빨간색으로 설정 */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .contact-button:hover {
+            background-color: #660000; /* 버튼 호버 배경색을 더 어두운 빨간색으로 설정 */
+        }
+
+        .container {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .previous-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #ffffff; /* 버튼 텍스트 색상을 흰색으로 설정 */
+            background-color: transparent; /* 버튼 배경색을 투명하게 설정 */
+            border: 2px solid #ffffff; /* 버튼 테두리를 하얀색으로 설정 */
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px 10px; /* 버튼 간격 조절 */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">고객센터</div>
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>제목</th>
+            <th>카테고리</th>
+            <th>상태</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 사용자 목록을 표시하기 위해 Thymeleaf의 반복문 사용 -->
+        <tr th:each="supportList, index : ${supportList}">
+            <!-- index 값을 표시 -->
+            <td th:text="${index.index + 1}"></td>
+            <!-- title 값이 클릭되면 해당 페이지로 이동하는 링크를 추가 -->
+            <td><a th:href="@{'/user_post?title=' + ${supportList.title}}" th:text="${supportList.title}"></a></td>
+            <td th:text="${supportList.category}"></td>
+            <td>
+                <a th:if="${supportList.verify == '대기중'}" th:text="${supportList.verify}"></a>
+                <a th:if="${supportList.verify == '답변완료'}" th:href="@{'/user_post?title=' + ${supportList.title}}" th:text="${supportList.verify}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 문의하기 버튼을 추가 -->
+    <div>
+        <button class="contact-button" onclick="location.href='/post'">문의하기</button>
+        <button class="previous-button" onclick="location.href='/login_success'">마이 페이지</button>
+    </div>
+</div>
+</body>
+</html>
